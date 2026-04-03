@@ -1,38 +1,40 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
+name: "🐛 Bug Report"
+about: "Report a specialized agent error or workflow failure."
+title: "[BUG] "
+labels: ["bug", "triage"]
+assignees: []
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+### 🚨 Bug Description
+A clear and concise description of what the bug is in the n8n workflow or agent logic.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+### 🛰 Workflow Context
+- **Agent Name**: (e.g., Lead Scraper, Content Architect)
+- **n8n Version**: (e.g., 1.x.x Desktop / Docker)
+- **Node Type**: (e.g., LangChain, Google Gemini, WordPress)
+- **Execution Mode**: (Standard / Background / Production)
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+### 👣 Steps to Reproduce
+1. Import the `.json` workflow...
+2. Configure credentials `X` and `Y`...
+3. Execute the `Trigger` node...
+4. See error at node `[Node Name]`
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+### 🎯 Expected Behavior
+A clear description of what the node/agent should have outputted.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+### 📉 Actual Behavior
+What actually happened? (Include the error message from the n8n node, if possible).
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+### 📸 Screenshots
+If applicable, add screenshots of the workflow canvas or the specific node error.
 
-**Additional context**
-Add any other context about the problem here.
+### 💻 Environment Details
+- **OS**: (e.g., Windows, Ubuntu)
+- **Docker/Node Version**: (if applicable)
+- **Browser**: (e.g., Chrome, Edge)
+
+### 📝 Additional Context
+Add any other context about the problem, such as API rate limits reached or specific model used.

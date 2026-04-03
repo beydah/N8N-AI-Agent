@@ -428,6 +428,17 @@
     ],
     "pinData": {},
     "connections": {
+        "Click": {
+            "main": [
+                [
+                    {
+                        "node": "Get Post",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
         "Create Content": {
             "main": [
                 [
