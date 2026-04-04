@@ -1,110 +1,95 @@
-# ✍️ AI Content Architect
-### Autonomous SEO Writer & Multi-Channel Publisher (n8n Agent)
+# Content Creator
+
+[Back to Source](../README.md) | [Back to Home](../../README.md) | [Go Docs](../../docs/README.md) | [Go Content Creator](./README.md) | [Go Lead Generator](../lead_generator/README.md) | [Go Contributing](../../docs/CONTRIBUTING.md) | [Go Security](../../docs/SECURITY.md)
 
 ![n8n](https://img.shields.io/badge/n8n-Workflow-FF6D5A?style=for-the-badge&logo=n8n)
-![Google Gemini](https://img.shields.io/badge/Google%20Gemini-2.0%20Flash-4285F4?style=for-the-badge&logo=google-gemini)
+![Gemini](https://img.shields.io/badge/Gemini-2.0_Flash-4285F4?style=for-the-badge&logo=google-gemini)
 ![WordPress](https://img.shields.io/badge/WordPress-CMS-21759B?style=for-the-badge&logo=wordpress)
-![LinkedIn](https://img.shields.io/badge/LinkedIn-Social-0A66C2?style=for-the-badge&logo=linkedin)
-![Google Drive](https://img.shields.io/badge/Google%20Drive-Assets-4285F4?style=for-the-badge&logo=googledrive)
+![LinkedIn](https://img.shields.io/badge/LinkedIn-Post-0A66C2?style=for-the-badge&logo=linkedin)
+![Google Drive](https://img.shields.io/badge/Google%20Drive-Asset-4285F4?style=for-the-badge&logo=googledrive)
 
-**AI Content Architect** is a state-of-the-art agent powered by **Google Gemini 2.0 Flash** and **LangChain**. It automates the entire content lifecycle: analyzing existing context from WordPress, ideating fresh SEO-optimized topics, generating high-fidelity blog text and banners, and distributing them across social and archive channels.
+This workflow turns a recent WordPress context into a fresh content package. It generates a new article, produces an image prompt, uploads a related asset, and prepares publishing outputs for WordPress and LinkedIn.
 
----
-
-## 🛰 Architecture Overview
-
-The agent utilizes a sophisticated "Reasoning Loop" to ensure content variety and technical accuracy.
+## Workflow Snapshot
 
 ```mermaid
 graph TD
-    Trigger(["Manual Trigger"]) --> WP_Get["WordPress: Fetch Latest Post"]
-    WP_Get --> Context["Extract Title & Style Context"]
-    
-    subgraph "Reasoning & Generation Loop"
-        Context --> Agent["Agent: SEO Architect"]
-        Agent <--> Memory["Memory Buffer: Last 3 Topics"]
-        Agent <--> LLM["Google Gemini 2.0 Flash"]
-        Agent --> Parser["Structured Output: JSON Validated"]
-    end
-
-    Parser --> Design["Designer: Gemini Image Generation"]
-    Parser --> Clean["Code: Markdown Asset Sanitizer"]
-
-    Design --> GDrive["Google Drive: Banner Upload"]
-    Clean --> WP_Draft["WordPress: Create Article Draft"]
-    Clean --> LinkedIn["LinkedIn Professional Update"]
+    Trigger["Manual trigger"] --> Context["Get latest WordPress post"]
+    Context --> Generate["Generate structured content"]
+    Generate -.-> Memory["Topic memory"]
+    Generate --> Clean["Clean final article body"]
+    Generate --> Image["Generate banner asset"]
+    Clean --> Blog["Create WordPress draft"]
+    Clean --> Social["Create LinkedIn post"]
+    Image --> Drive["Upload banner to Google Drive"]
 ```
 
----
+## What It Does
 
-## ✨ Intelligence Features
+- Reads the latest post to keep tone and topic direction consistent.
+- Uses Gemini-backed generation with structured parsing.
+- Prevents repetitive topics through a short memory window.
+- Prepares both publishing text and visual asset output in one run.
 
-- **Context-Aware Ideation**: Automatically reads your most recent WordPress post to derive a relevant follow-up topic, ensuring your blog's narrative stays consistent.
-- **Advanced Memory Management**: Features a specialized "Memory Rule" that monitors the last 3 topics. If the suggested topic repeats, the AI autonomously generates a new, related category to maintain diversity.
-- **Deep SEO Alignment**: Every article is prompted to answer specific user intent: *What is it? How does it work? Advantages? Practical use cases?*
-- **Asset Creator**: Uses **Gemini Image Generation** to create professional 1:1 square banners for every post, ensuring visual cohesion.
-- **Smart Sanitization**: A custom JavaScript layer removes LLM artifacts (like accidental asterisks or bolding errors) to ensure "Paste-Ready" WordPress drafts.
+## Files
 
----
+| File | Purpose |
+| :--- | :--- |
+| [`agent.json`](./agent.json) | Exported n8n workflow for import. |
+| [`README.md`](./README.md) | Setup and operational guide for this workflow. |
 
-## 🛠 Prerequisites
+## Required Services
 
-1. **n8n Instance**: Cloud or self-hosted (v1.x recommended).
-2. **AI Keys**: [Google AI Studio (Gemini API)](https://aistudio.google.com/api-keys).
-3. **LinkedIn**: Created a Company/Organization page and [App Credentials](https://www.linkedin.com/developers/apps).
-4. **WordPress**: Created an Application Password under `Users > Profile`.
-5. **Google Cloud**: Service Account or OAuth for [Google Drive API](https://console.cloud.google.com/).
+1. n8n instance with the needed community and built-in nodes.
+2. Google Gemini credentials.
+3. WordPress credentials for reading posts and creating drafts.
+4. LinkedIn credentials for publishing updates.
+5. Google Drive credentials for uploading generated assets.
 
----
+## Setup
 
-## ⚙️ Configuration
+### 1. Import the Workflow
 
-### 1. Model Configuration
-Locate the **Writer** and **Parser** nodes.
-- Enter your Gemini API key in the credentials tab.
-- The workflow is pre-configured to use `models/gemini-2.0-flash-lite` for cost efficiency in parsing and `models/gemini-2.0-flash` for high-reasoning writing.
+- Import [`agent.json`](./agent.json) into n8n.
+- Review each credential-backed node before running the flow.
 
-### 2. WordPress Context Sync
-Double-click the **Get Post** node.
-- Configure your WordPress URL and Application Password.
-- Ensure the `categories` filter matches the IDs you wish to analyze.
+### 2. Configure Credentials
 
-### 3. Archive & Social Pins
-- **Upload file**: Designate a specific folder ID in Google Drive for automated banner archiving.
-- **Create Post**: Ensure your LinkedIn person ID (member URN) is updated in the node parameters.
+- `Writer`, `Parser`, and `Designer` should use your Gemini credentials.
+- `Get Post` and `Create Blog` should use your WordPress credentials.
+- `Create Post` should use your LinkedIn credentials.
+- `Upload file` should use your Google Drive credentials.
 
----
+### 3. Review Content Settings
 
-## 🧩 Structured Output Schema
+- Confirm the `Get Post` category filters match your WordPress setup.
+- Confirm the draft status and category behavior in `Create Blog`.
+- Confirm the upload folder destination in `Upload file`.
 
-The agent enforces a strict JSON schema for zero-integration friction:
+## Output Contract
+
+The workflow expects a structured object with the following keys:
+
 ```json
 {
   "title": "English blog title",
-  "content": "SEO-friendly blog body text",
-  "img_prompt": "1:1 modern minimalist image prompt",
+  "content": "SEO-friendly article body",
+  "img_prompt": "Square image prompt",
   "img_title": "url-friendly-slug"
 }
 ```
 
----
+## Troubleshooting
 
-## 📊 Troubleshooting
+| Issue | What to Check |
+| :--- | :--- |
+| Repeated topics | Clear or inspect the memory node. |
+| Empty WordPress context | Verify the `Get Post` node credentials and filters. |
+| Missing asset upload | Verify Google Drive credentials and folder selection. |
+| Low-quality output | Review the prompt and model credentials used by the generation nodes. |
 
-| Symptom | Cause | Solution |
-| :--- | :--- | :--- |
-| **Repetitive Topics** | Memory Buffer reset | Clear the node memory or wait for new WordPress context to be fetched. |
-| **Markdown Errors** | LLM Hallucinated bolding | The **Clear Content** JS node is designed to catch this; verify the regex pattern. |
-| **Image Generation Fail** | Gemini Rate Limits | Ensure your Google AI Studio account is out of standard API tier limits. |
+## Related Pages
 
----
-
-## 👨‍💻 Author & Credits
-
-Developed by **Beydah Saglam**
-- 🌐 [beydahsaglam.com](https://beydahsaglam.com)
-- 🐙 [GitHub Profile](https://github.com/beydah)
-- 💼 [LinkedIn](https://linkedin.com/in/beydah)
-
----
-**License:** Distributed under the MIT License. See `LICENSE` for more information.
+- [Back to Source](../README.md)
+- [Go Lead Generator](../lead_generator/README.md)
+- [Go Docs](../../docs/README.md)

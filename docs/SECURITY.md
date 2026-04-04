@@ -1,50 +1,39 @@
-# 🛡️ Security Policy
-### Ensuring the Integrity of Your Autonomous Workflows
+# Security Guide
 
-We take the security of the **N8N AI Agent Hub** seriously. Because these agents interact with sensitive external platforms (WordPress, LinkedIn, Search APIs), maintaining a secure configuration is paramount.
+[Back to Docs](./README.md) | [Back to Home](../README.md) | [Go Source](../src/README.md) | [Go Content Creator](../src/contect_creator/README.md) | [Go Lead Generator](../src/lead_generator/README.md) | [Go Contributing](./CONTRIBUTING.md)
 
----
+These workflows connect to external APIs and publishing systems, so exported JSON files should be treated as configuration artifacts that can accidentally leak secrets if they are not cleaned before commit.
 
-## 🔒 Security Architecture
+## Core Rules
 
-Our modular design is built to minimize the "blast radius" of any potential compromise:
-1. **Isolated Environments**: Each agent is a standalone workflow.
-2. **Credential Decoupling**: We use n8n’s internal encrypted credential store rather than hardcoding keys.
-3. **Pre-Publish Sanitization**: Logic is included to clean AI outputs before they reach public-facing APIs.
+- Never commit live API keys, tokens, or private IDs in `agent.json`.
+- Prefer n8n credentials over inline values whenever possible.
+- Replace exported secrets with placeholders such as `ENTER_YOUR_API_KEY`.
+- Review the diff before every commit and before every push.
 
----
+## Safe Export Checklist
 
-## 🚀 Secure Deployment Checklist
+- [ ] All API keys are placeholders.
+- [ ] OAuth or account names in screenshots and examples are safe to publish.
+- [ ] Test data does not expose private business or customer information.
+- [ ] Links in README files do not point to private endpoints.
 
-Before deploying this hub in a production environment, ensure:
-- [ ] **HTTPS Only**: Your n8n instance must be behind a Reverse Proxy (Nginx/Traefik) with valid SSL.
-- [ ] **Authentication**: Use **OAuth2** or **Strong Basic Auth** to restrict dashboard access.
-- [ ] **Docker Hardening**: Run your n8n Docker container as a **non-root user**.
-- [ ] **Firewall**: Restrict incoming traffic to only necessary ports (e.g., 443 for webhooks).
+## If a Secret Was Committed
 
----
+1. Rotate the secret at the provider immediately.
+2. Remove the value from the current files.
+3. Rewrite the affected git history if the secret was pushed.
+4. Force-push the cleaned branch only after verifying the replacement commit.
 
-## 🔐 Secret Management Standards
+## Vulnerability Reporting
 
-To protect your API keys:
-- **Environment Variables**: Store sensitive keys in your `.env` file, never in the workflow logic.
-- **Workflow Placeholders**: When exporting agents as `.json`, check that all keys are replaced with `ENTER_YOUR_KEY`.
-- **Git Safety**: Our `.gitignore` is configured to prevent `.env` and `*.json` (with keys) from being committed.
+Do not open a public issue for a security problem.
 
----
+- Private report: [GitHub Security Advisory](https://github.com/beydah/N8N-AI-Agent/security/advisories/new)
+- Email: `info.beydahsaglam@gmail.com`
 
-## 🚨 Reporting a Vulnerability
+## Related Documents
 
-**Please do not open public issues for security vulnerabilities.**
-
-If you discover a security-related issue, please report it via:
-1. **Private Reporting**: Use the [GitHub Security Advisory](https://github.com/beydah/N8N-AI-Agent/security/advisories/new) feature.
-2. **Direct Email**: Reach out to `info.beydahsaglam@gmail.com`.
-
-### Our Commitment
-- **Acknowledge**: Within 24 hours.
-- **Triage**: Within 48 hours.
-- **Resolution**: Timeline based on severity (Critical issues prioritized).
-
----
-**Last Updated: April 2026**
+- [Back to Home](../README.md)
+- [Go Docs](./README.md)
+- [Go Contributing](./CONTRIBUTING.md)
