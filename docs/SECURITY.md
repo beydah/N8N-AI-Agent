@@ -6,43 +6,43 @@
 
 ---
 
-Since these automation workflows connect directly to your live website, AI providers, and social accounts, **keeping credentials secure is our absolute priority**. 
+Because these automation workflows connect directly to your live websites, database entries, AI providers, and social accounts, **credential security is our absolute priority**.
 
-Please read this policy to make sure you protect your API keys and accounts when using or editing these workflows.
-
----
-
-## 🔒 Golden Rules of Safety
-
-- **Never Commit Secrets:** Do not commit actual passwords, private tokens, or live API keys to this repository.
-- **Use n8n Credentials:** Always use n8n's built-in credential management fields instead of hardcoding API keys in code or HTTP request headers.
-- **Replace with Placeholders:** If you export a workflow from n8n to share, edit the JSON file first and replace any private names or values with uppercase placeholders (e.g. `ENTER_YOUR_API_KEY`).
+Please follow this policy to safeguard your API keys, credentials, and user data when deploying or updating workflows.
 
 ---
 
-## 📋 Safe Export Checklist
+## 🔒 Safety Guidelines
 
-Before sharing your customized workflow files:
-- [ ] No real API keys or tokens are in the JSON file.
-- [ ] Account and username identifiers in settings or URLs are cleaned.
-- [ ] Test data in the code nodes does not contain private customer info.
-- [ ] No test links point to private sandbox or staging portals.
+* **No Committed Secrets:** Do not commit passwords, API keys, or active account credentials to Git history.
+* **Leverage n8n Credentials:** Always use n8n's dedicated built-in credential manager instead of placing keys directly in headers or request body nodes.
+* **Sanitize Exports:** If exporting a custom workflow for sharing, inspect the JSON structure and replace personal tokens or private links with uppercase placeholders (e.g. `ENTER_YOUR_API_KEY`).
 
 ---
 
-## 🚨 What to do if a Secret is Leaked?
+## 📋 Pre-Commit Checklist
 
-If you accidentally commit a live secret:
-1. **Change it immediately** at the provider (e.g., rotate your Gemini key, change your WordPress application password).
-2. Delete the value from the file locally.
-3. Clean your Git commit history to erase the secret from history.
-4. Push the cleaned branch only after verifying it is safe.
+Verify the following before contributing or sharing workflow files:
+- [ ] Raw API keys, tokens, or app passwords have been removed.
+- [ ] Custom domain usernames or profile slugs in settings and URLs have been sanitized.
+- [ ] Test parameters in the code block nodes do not contain private customer data.
+- [ ] Staging links and Sandbox webhook endpoints have been replaced with generic placeholders.
+
+---
+
+## 🚨 Security Incident Handling
+
+If you accidentally commit an active credentials secret:
+1. **Rotate the Secret Immediately:** Deauthorize the exposed API key or credential at the provider side (e.g. Google AI Studio, WordPress site administrator dashboard).
+2. Remove the active string value from the file locally.
+3. Rewrite the git commit history to purge the credential from previous history.
+4. Push the cleaned branch only after verifying it is sanitized.
 
 ---
 
 ## ✉️ Vulnerability Reporting
 
-If you find a security bug or a leak, please **do not open a public issue**. Contact us privately:
+If you locate a security leak or vulnerability in the repository, please **do not open a public issue**. Proactively open a secure report:
 
-- **Private Advisory:** [GitHub Security Advisory Portal](https://github.com/beydah/N8N-AI-Agent/security/advisories/new)
-- **Direct Email:** `info.beydahsaglam@gmail.com`
+* **Private Advisory:** Propose a report using the [GitHub Security Advisory Portal](https://github.com/your-github-repo/security/advisories/new)
+* **Direct Contact:** Contact the repository maintainers directly via security email.

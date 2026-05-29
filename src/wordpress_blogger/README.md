@@ -1,4 +1,4 @@
-# 🤖 WordPress Blogger Workflow Agent
+# 🤖 WordPress Blogger
 
 <p align="center">
   <b>🏡 <a href="../../README.md">Repository Home</a></b> • 📖 <a href="../../docs/README.md">Docs Overview</a> • 📁 <a href="../README.md">Source Packages</a> • 🤖 <b>WordPress Blogger</b>
@@ -7,95 +7,74 @@
 <p align="center">
   <img src="https://img.shields.io/badge/n8n-Workflow-FF6D5A?style=for-the-badge&logo=n8n" alt="n8n" />
   <img src="https://img.shields.io/badge/Gemini_AI-3.5_Flash-4285F4?style=for-the-badge&logo=google-gemini" alt="Gemini" />
-  <img src="https://img.shields.io/badge/WordPress-CMS-21759B?style=for-the-badge&logo=wordpress" alt="WordPress" />
+  <img src="https://img.shields.io/badge/WordPress-REST_API-21759B?style=for-the-badge&logo=wordpress" alt="WordPress" />
 </p>
 
 ---
 
-## 🌟 What is this Workflow?
+## 🌟 Overview
 
-The **WordPress Blogger** agent is a fully automated publisher. 
+The **WordPress Blogger** is a fully automated content publisher. This n8n workflow runs daily to query tech news feeds, contextually write localized, SEO-ready articles, generate customized cover images, and publish live posts to your WordPress site.
 
-It triggers every day at 23:00 to:
-1. Read the latest tech news feed (VentureBeat AI feed).
-2. Fetch the latest post on your WordPress blog to ensure it writes about a fresh category.
-3. Write a Turkish, SEO-friendly HTML article using Google Gemini.
-4. Conceptualize and generate a blocky, Minecraft-style (voxel-art) cover image.
-5. Upload the image and publish the post directly to WordPress with custom tags.
+### 🧠 Features
+
+1. **Scheduled Runs:** Triggers daily at 23:00 automatically.
+2. **Fresh Feed Ingestion:** Pulls active news articles from an RSS feed (e.g. VentureBeat AI category feed).
+3. **Contextual Avoidance:** Fetches the latest published article to avoid writing duplicate topics sequentially.
+4. **Structured Article Builder:** Generates an article styled with clean HTML headings, comparison tables, and safe interactive accordions.
+5. **AI Image Art Director:** Generates voxel-based Minecraft-style cover art tailored directly to the generated article topics.
+6. **Instant Publishing:** Connects to WordPress to create tags, upload media, and insert posts cleanly.
 
 ---
 
-## 🗺️ Workflow Snapshot
+## 🗺️ Process Layout
 
-Here is the operational path of the workflow:
+The following flowchart describes the operations inside the blogging pipeline:
 
-```mermaid
-graph TD
-    Trigger["1. Schedule Trigger (23:00)"] --> RSS["2. Read RSS Feed (VentureBeat)"]
-    RSS --> Limit["3. Limit to 1 News Item"]
-    Limit --> GetPost["4. Get Latest WP Post (Check Category)"]
-    GetPost --> Writer["5. Writer (Gemini - Create Turkish HTML)"]
-    Writer --> Designer["6. Designer (Gemini - Create Visual Prompt)"]
-    Designer --> CreateImg["7. Create Cover Image (Gemini Image)"]
-    CreateImg --> SetImg["8. Set Image File Name (Slug.png)"]
-    SetImg --> AddImg["9. Upload Cover to WordPress"]
-    AddImg --> AddKey["10. Add WordPress Tag (wp-key)"]
-    AddKey --> AddPost["11. Publish Post to WordPress"]
-    AddKey -.-> GetKey["Get Tag (Fallback if tag exists)"]
-    GetKey --> AddPostFallback["Publish Post (Fallback)"]
-
-    style Trigger fill:#f9f,stroke:#333
-    style AddPost fill:#bfb,stroke:#333
-    style AddPostFallback fill:#bfb,stroke:#333
-```
+![WordPress Blogger Flow](./wordpress_blogger_flow.svg)
 
 ---
 
 ## 📁 Package Files
 
-| File | What is it? |
+| File | Description |
 | :--- | :--- |
-| **[`agent.json`](./agent.json)** | The exported n8n workflow file. Import this to your n8n dashboard. |
-| **[`README.md`](./README.md)** | This setup and operational guide. |
+| **[`agent.json`](./agent.json)** | Sanitized n8n workflow configuration file. Import this to your dashboard. |
+| **[`wordpress_blogger_flow.svg`](./wordpress_blogger_flow.svg)** | Visual SVG flow diagram of the process. |
 
 ---
 
 ## 🛠️ Requirements & Credentials
 
-Before starting, make sure you have:
-- An **n8n instance** running.
-- **Google Gemini API Key** (for text generation and cover image styling).
-- **WordPress website REST API login** (Username & Application Password).
+Before deploying this assistant, verify that you have:
+
+1. **n8n Instance:** Running self-hosted or cloud version.
+2. **Google Gemini API Key:** Access to Gemini models via [Google AI Studio](https://aistudio.google.com/).
+3. **WordPress REST Credentials:** WordPress site login credentials with username and Application Password (create this in WP Admin -> Users -> Profile).
 
 ---
 
 ## ⚙️ Step-by-Step Setup
 
-### 1. Import to n8n
-- Download [`agent.json`](./agent.json) and import it into your n8n dashboard.
-- Keep the workflow inactive while configuring credentials.
+### 1. Import Workflow
+* Download [`agent.json`](./agent.json).
+* Go to your n8n workspace, click **Add Workflow** -> **Import from File**, and select the downloaded file.
 
-### 2. Set Up Node Credentials
-<details>
-<summary>🔑 Click to reveal setup guide for each API</summary>
+### 2. Configure Credentials
+* Open the **Gemini nodes** (`First Model`, `Fallback Model`, `Create Img`) and select or create your Google Gemini credentials.
+* Open the **WordPress nodes** (`Get Post`, `Add Img`, `Add Key`, `Get Key`, `Add Post`, `Add Post Fallback`) and add/select your WordPress REST API credentials.
 
-- **Gemini nodes (`First Model`, `Fallback Model`, `Create Img`):**
-  - Set up Google Gemini API credentials.
-- **WordPress nodes (`Get Post`, `Add Img`, `Add Key`, `Get Key`, `Add Post`, `Add Post Fallback`):**
-  - Set up WordPress credentials (`wordpressApi` or `httpBasicAuth`) using your WordPress REST Username and Application Password.
-</details>
-
-### 3. Customize settings
-- **URLs:** Inside the WordPress HTTP nodes, change the `https://beydahsaglam.com/` domain to your own website's domain.
-- **System Prompts:** Customize the allowed content categories or target website developer info inside the `Writer` node settings under the systemMessage key.
+### 3. Customize Prompts and Targets
+* Open the HTTP Request nodes and edit the WordPress site URLs to replace `https://your-wordpress-site.com` with your live domain address.
+* Customize target categories, developer bios, or copywriting rules in the **`Writer`** node under its `systemMessage` parameters.
 
 ---
 
 ## 📊 Troubleshooting Guide
 
-| What went wrong? | What should I check? |
+| Issue | Resolution |
 | :--- | :--- |
-| **RSS feed node error** | Check RSS feed URL validation and internet status. |
-| **WordPress upload fails** | Verify WordPress credentials and ensure Application Passwords are enabled on your web host. |
-| **Cover image fails to generate** | Check Gemini API image quota limits or review prompt content safety flags. |
-| **Interactivity styling broken in WP** | Keep custom CSS style tags out of the HTML body, as WordPress blocks them. |
+| **RSS feed node error** | Verify the RSS feed URL is online and formatted correctly. |
+| **WordPress upload fails** | Verify that your site URL begins with HTTPS and that Application Passwords are functional. |
+| **Cover image fails to generate** | Ensure that the image prompt complies with Gemini content safety filters. |
+| **Broken visual layouts in WordPress** | Ensure custom script/style tags are omitted from the AI outputs, as WordPress blocks them. |

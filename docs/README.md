@@ -6,15 +6,15 @@
 
 ---
 
-Welcome to the **Documentation Hub**. This section provides the central standards, guidelines, and safety policies for utilizing and extending the workflows in this repository.
+Welcome to the **Documentation Hub**. This section contains the workflow standards, contributing processes, and safety protocols for using and developing packages in this repository.
 
-To keep things organized, setup guides specific to a workflow are stored right next to their code (inside the `src/` folder), while overall rules and policies live here.
+Individual package setup guides and schemas reside next to their JSON configurations inside the [`src/`](../src/README.md) directory, while global guidelines live here.
 
 ---
 
 ## 🗺️ Documentation Directory Map
 
-Here is how the documentation is structured:
+Here is the layout of the repository's guidelines and policy files:
 
 ```mermaid
 graph TD
@@ -22,32 +22,28 @@ graph TD
     Docs --> Security["🛡️ SECURITY.md"]
     Docs -.-> RootReadme["🏡 README.md (Root)"]
     RootReadme --> SourceReadme["📁 src/ README (Workflows)"]
-
-    style Docs fill:#f9f,stroke:#333,stroke-width:2px
-    style Contributing fill:#bbf,stroke:#333,stroke-width:1px
-    style Security fill:#bbf,stroke:#333,stroke-width:1px
 ```
 
 ---
 
-## 📚 General Guides
+## 📚 General Policies & Guides
 
-| Document | What is it about? (Simple Terms) | Why read it? |
+| Document | Description | Purpose |
 | :--- | :--- | :--- |
-| **[✍️ Contributing Guide](./CONTRIBUTING.md)** | Rules for editing workflows, layout standards, and folders. | Read this before creating a pull request or changing node configurations. |
-| **[🛡️ Security Policy](./SECURITY.md)** | Guidelines on API keys, secret credentials, and private data. | Read this to ensure you do not leak your credentials when exporting workflows. |
+| **[✍️ Contributing Guide](./CONTRIBUTING.md)** | Guidelines on codebase structure, node naming conventions, and pull request procedures. | Read this before proposing edits or adding new workflows. |
+| **[🛡️ Security Policy](./SECURITY.md)** | Standards on secret handling, token sanitization, and vulnerability reporting. | Read this to ensure credentials are never leaked in shared JSON configurations. |
 
 ---
 
 ## 🚀 Workflow Entry Points
 
-Need help setting up a specific automated agent? Go directly to its setup instructions:
+Navigate directly to setup instructions for individual automated agents:
 
-- **✍️ [Content Creator Guide](../src/contect_creator/README.md)** - Generates high-quality blog content and asset draft packages.
-- **🤖 [WordPress Blogger Guide](../src/wordpress_blogger/README.md)** - Automates a daily RSS tech news blog writer and cover image publisher.
-- **🎯 [Lead Generator Guide](../src/lead_generator/README.md)** - Automates Google Maps business search, deduplication, and Google Sheet logging.
+* **✍️ [Content Creator Guide](../src/contect_creator/README.md)** - Generates high-quality articles, cover prompts, and handles asset draft packages.
+* **🤖 [WordPress Blogger Guide](../src/wordpress_blogger/README.md)** - Automates news feed consumption, custom copy generation, cover generation, and posts.
+* **🎯 [Lead Scraper Guide](../src/lead_scraper/README.md)** - Automates Google Maps places searches, local duplicates filtration, and Google Sheets logging.
 
 ---
 
 > [!TIP]
-> Always read the **[Security Policy](./SECURITY.md)** before sharing or exporting any custom n8n JSON files to prevent private API keys from being leaked to public repositories.
+> Always read the **[Security Policy](./SECURITY.md)** before sharing or exporting any custom n8n JSON configuration files to prevent leaking live API keys or passwords.

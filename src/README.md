@@ -6,21 +6,19 @@
 
 ---
 
-This directory houses the workflow packages that you can import into your n8n instance. 
-
-To keep everything clean and modular, each workflow lives in its own folder and contains its n8n export file (`agent.json`) next to its setup guide (`README.md`).
+This directory houses the workflow packages available for import into your n8n workspace. To maintain a clean, modular repository layout, each package resides in its own folder and contains its sanitized JSON configuration next to its setup documentation.
 
 ---
 
-## 🗺️ Source packages directory structure
+## 🗺️ Directory Architecture
 
-Here is how the workflow source folders are laid out:
+The source folders are organized as follows:
 
 ```mermaid
 graph TD
     Source["📁 src/ Source Root"] --> Content["✍️ contect_creator/"]
     Source --> Blogger["🤖 wordpress_blogger/"]
-    Source --> Leads["🎯 lead_generator/"]
+    Source --> Leads["🎯 lead_scraper/"]
 
     Content --> ContentJson["agent.json (Workflow)"]
     Content --> ContentReadme["README.md (Guide)"]
@@ -28,35 +26,30 @@ graph TD
     Blogger --> BloggerReadme["README.md (Guide)"]
     Leads --> LeadsJson["agent.json (Workflow)"]
     Leads --> LeadsReadme["README.md (Guide)"]
-
-    style Source fill:#f9f,stroke:#333,stroke-width:2px
-    style Content fill:#bbf,stroke:#333
-    style Blogger fill:#bbf,stroke:#333
-    style Leads fill:#bbf,stroke:#333
 ```
 
 ---
 
-## 📦 Available Packages
+## 📦 Package Catalog
 
-| Package Name | Files Included | What it does | Primary services used |
+| Package Name | Contents | Description | Integrations |
 | :--- | :--- | :--- | :--- |
-| **✍️ [Content Creator](./contect_creator/README.md)** | `agent.json`, `README.md` | Generates article copy, designs an image prompt, and schedules drafts. | n8n, Gemini AI, WordPress, LinkedIn, Google Drive |
-| **🤖 [WordPress Blogger](./wordpress_blogger/README.md)** | `agent.json`, `README.md` | Auto-posts news items using AI translation and block-art image generation. | n8n, Gemini AI, RSS Feeds, WordPress REST API |
-| **🎯 [Lead Generator](./lead_generator/README.md)** | `agent.json`, `README.md` | Gathers local business info, runs deduplication logic, and logs leads. | n8n, Google Maps & Places APIs, Google Sheets |
+| **✍️ [Content Creator](./contect_creator/README.md)** | `agent.json`, `README.md` | Generates article drafts, cover image prompts, and schedules publishing resources. | n8n, Gemini AI, WordPress, LinkedIn, Google Drive |
+| **🤖 [WordPress Blogger](./wordpress_blogger/README.md)** | `agent.json`, `README.md` | Periodically parses tech feeds, writes SEO-friendly articles, drafts voxel cover art, and posts. | n8n, Gemini AI, RSS Feeds, WordPress REST API |
+| **🎯 [Lead Scraper](./lead_scraper/README.md)** | `agent.json`, `README.md` | Gathers local business info, runs deduplication logic, and logs unique leads. | n8n, Google Maps & Places APIs, Google Sheets |
 
 ---
 
 ## 📥 How to Import a Workflow
 
-1. Open the workflow's folder link from the table above.
-2. Read the setup requirements.
+1. Click on the package name from the catalog table above.
+2. Review its credential requirements and database schema setup details.
 3. Download the `agent.json` file.
 4. Go to your **n8n instance** dashboard.
-5. Click **Import from File** and select the downloaded `agent.json`.
-6. Add your API credentials and run in test mode first.
+5. Create a new workflow, click **Import from File**, and select the downloaded `agent.json` file.
+6. Configure your custom API keys, toggle the workflow state to **Active**, and start running!
 
 ---
 
 > [!NOTE]
-> *Note on folder spelling:* The folder name `contect_creator` is left as is to ensure compatibility with existing configurations.
+> *Note on directory naming:* The folder name `contect_creator` has been preserved to prevent breaking references in existing automation endpoints.

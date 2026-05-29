@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#1e293b" flood-opacity="0.06" />
+    </filter>
+    
+    <!-- Linear Gradients -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    
+    <linearGradient id="slateGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#f1f5f9" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" rx="16" fill="#f8fafc" />
+  <rect x="1" y="1" width="798" height="498" rx="15" fill="none" stroke="#e2e8f0" stroke-width="2" />
+
+  <!-- Title -->
+  <text x="40" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" fill="#0f172a">🗺️ Google Maps Lead Scraper Workflow</text>
+  <text x="40" y="75" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#64748b">Operational steps and data flow from trigger to target spreadsheet database</text>
+
+  <!-- Connecting Lines -->
+  <!-- Step 1 to Step 2 -->
+  <path d="M 180 180 L 260 180" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4" />
+  <!-- Step 2 to Step 3 -->
+  <path d="M 400 180 L 480 180" fill="none" stroke="#cbd5e1" stroke-width="2" />
+  <!-- Step 3 to Step 4 -->
+  <path d="M 620 180 L 620 280" fill="none" stroke="#cbd5e1" stroke-width="2" />
+  <!-- Step 4 to Step 5 -->
+  <path d="M 540 330 L 440 330" fill="none" stroke="#cbd5e1" stroke-width="2" />
+  <!-- Step 5 to Step 6 -->
+  <path d="M 280 330 L 180 330" fill="none" stroke="#cbd5e1" stroke-width="2" />
+
+  <!-- Node 1: Webhook Trigger (n8n Form) -->
+  <g transform="translate(40, 130)" filter="url(#shadow)">
+    <rect width="140" height="100" rx="8" fill="url(#blueGrad)" />
+    <text x="70" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">1. Trigger</text>
+    <text x="70" y="65" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#dbeafe" text-anchor="middle">n8n Webhook Form</text>
+    <text x="70" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#93c5fd" text-anchor="middle">(Keyword &amp; Loc)</text>
+  </g>
+
+  <!-- Node 2: Google Maps Places API -->
+  <g transform="translate(260, 130)" filter="url(#shadow)">
+    <rect width="140" height="100" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" />
+    <text x="70" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">2. Search Maps</text>
+    <text x="70" y="65" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#475569" text-anchor="middle">API Text Search</text>
+    <text x="70" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">(3 pages + delays)</text>
+  </g>
+
+  <!-- Node 3: Consolidate Results -->
+  <g transform="translate(480, 130)" filter="url(#shadow)">
+    <rect width="140" height="100" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" />
+    <text x="70" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">3. Consolidate</text>
+    <text x="70" y="65" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#475569" text-anchor="middle">Merge list items</text>
+    <text x="70" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">and remove duplicates</text>
+  </g>
+
+  <!-- Node 4: Deduplicate Against DB -->
+  <g transform="translate(540, 280)" filter="url(#shadow)">
+    <rect width="160" height="100" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" />
+    <text x="80" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">4. Compare DB</text>
+    <text x="80" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#475569" text-anchor="middle">Read Google Sheets</text>
+    <text x="80" y="75" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#3b82f6" font-weight="600" text-anchor="middle">Skip existing IDs</text>
+    <text x="80" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">(Saves API credits)</text>
+  </g>
+
+  <!-- Node 5: Fetch Details (Enrichment) -->
+  <g transform="translate(280, 280)" filter="url(#shadow)">
+    <rect width="160" height="100" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" />
+    <text x="80" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">5. Enrich Leads</text>
+    <text x="80" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#475569" text-anchor="middle">Fetch phone/links</text>
+    <text x="80" y="75" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">via Place Details API</text>
+    <text x="80" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#ef4444" font-weight="600" text-anchor="middle">Filter out no-phone</text>
+  </g>
+
+  <!-- Node 6: Save & Report -->
+  <g transform="translate(40, 280)" filter="url(#shadow)">
+    <rect width="140" height="100" rx="8" fill="url(#emeraldGrad)" />
+    <text x="70" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">6. Save Leads</text>
+    <text x="70" y="65" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#d1fae5" text-anchor="middle">Append Sheet Rows</text>
+    <text x="70" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#a7f3d0" text-anchor="middle">Send Success Form</text>
+  </g>
+</svg>

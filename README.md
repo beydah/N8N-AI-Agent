@@ -1,34 +1,35 @@
-# 🤖 N8N AI Agent Hub
+# 🤖 n8n AI Agent Hub
 
 <p align="center">
-  <b>🏡 Repository Home</b> • 📖 <a href="./docs/README.md">Documentation Hub</a> • 📁 <a href="./src/README.md">Source Packages</a> • 🛡️ <a href="./docs/SECURITY.md">Security Policy</a> • ✍️ <a href="./docs/CONTRIBUTING.md">Contributing Guide</a>
+  <b>🏡 Home</b> • 📖 <a href="./docs/README.md">Documentation Hub</a> • 📁 <a href="./src/README.md">Source Packages</a> • 🛡️ <a href="./docs/SECURITY.md">Security Policy</a> • ✍️ <a href="./docs/CONTRIBUTING.md">Contributing Guide</a>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/n8n-Workflow_Automation-FF6D5A?style=for-the-badge&logo=n8n" alt="n8n" />
   <img src="https://img.shields.io/badge/Gemini_AI-3.5_Flash-4285F4?style=for-the-badge&logo=google-gemini" alt="Gemini" />
-  <img src="https://img.shields.io/badge/Google_Sheets-Ready-34A853?style=for-the-badge&logo=google-sheets" alt="Google Sheets" />
-  <img src="https://img.shields.io/badge/License-MIT-black?style=for-the-badge" alt="License" />
+  <img src="https://img.shields.io/badge/Google_Sheets-Database-34A853?style=for-the-badge&logo=google-sheets" alt="Google Sheets" />
+  <img src="https://img.shields.io/badge/License-MIT-000000?style=for-the-badge" alt="License" />
 </p>
 
 ---
 
-## 🌟 What is this Repository?
+## 🌟 Overview
 
-Welcome! This repository is a collection of **production-ready n8n workflows** that act as smart digital helpers (AI Agents) for your business or personal projects. 
+Welcome to the **n8n AI Agent Hub**! This repository hosts a collection of production-ready, modular n8n workflow packages designed to automate complex, repetitive digital processes. Powered by **Google Gemini AI**, these automated agents handle content copywriting, web research, database logging, and social publishing on your behalf.
 
-If you do repetitive tasks like writing blogs, looking for leads, or posting to social media, these agents are designed to do that work for you automatically.
+### 🧠 Core Architecture
 
-### 🧠 How does it work?
-1. **The Conductor (n8n):** n8n is like a digital coordinator. It connects your website, social media, spreadsheets, and AI models so they can talk to each other.
-2. **The Brain (Google Gemini):** We use Google's advanced AI models to read, write, and conceptualize ideas.
-3. **The Workers (Workflow Packages):** Each folder in `src/` represents a single automated worker that you can import and run on your own n8n instance.
+* **The Orchestrator (n8n):** Serves as the central coordinator, connecting third-party platforms, APIs, database tables, and AI services.
+* **The Intelligence (Google Gemini):** Handles NLP tasks, content copywriting, semantic checks, and text-to-image prompt designing.
+* **The Workers (Workflow Packages):** Standalone, importable directories in `src/` tailored for specific functional operations.
+
+![Hub Architecture](./n8n_hub_architecture.svg)
 
 ---
 
-## 🗺️ Repository Structure
+## 🗺️ Workspace Navigation
 
-Here is how the files are organized in this project. You can click on any folder or file to explore its contents:
+Below is a map of the repository's directories:
 
 ```mermaid
 graph TD
@@ -38,39 +39,36 @@ graph TD
     Docs --> Security["🛡️ Security Policy"]
     Source --> Content["✍️ Content Creator"]
     Source --> Blogger["🤖 WordPress Blogger"]
-    Source --> Leads["🎯 Lead Generator"]
-
-    style Home fill:#f9f,stroke:#333,stroke-width:2px
-    style Docs fill:#bbf,stroke:#333,stroke-width:1px
-    style Source fill:#bbf,stroke:#333,stroke-width:1px
+    Source --> Leads["🎯 Lead Scraper"]
 ```
 
 ---
 
-## 🚀 Available Workflow Packages
+## 📦 Available Workflow Packages
 
-| Workflow Agent | Location | What it does (Simple Terms) | Primary Outputs | Status |
+| Workflow Assistant | Package Path | Operational Summary | Primary Services | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **✍️ Content Creator** | [`src/contect_creator`](./src/contect_creator) | Turns a topic into a polished article, creates an image description, and prepares draft files. | WordPress draft, LinkedIn post, Google Drive asset | `Active` |
-| **🤖 WordPress Blogger** | [`src/wordpress_blogger`](./src/wordpress_blogger) | Reads technology news feeds daily, writes an article in Turkish, generates a cover image, and publishes it. | Live WordPress post | `Active` |
-| **🎯 Lead Generator** | [`src/lead_generator`](./src/lead_generator) | Searches Google Maps, filters out business records you already have, and saves new leads. | Clean Google Sheet rows | `Active` |
+| **✍️ Content Creator** | [`src/contect_creator`](./src/contect_creator) | Reads historical posts, drafts SEO articles, writes social copy, and generates cover designs. | n8n, Gemini AI, WordPress, LinkedIn, Google Drive | `Active` |
+| **🤖 WordPress Blogger** | [`src/wordpress_blogger`](./src/wordpress_blogger) | Periodically reads technology news RSS feeds, writes SEO articles, generates block-art, and publishes. | n8n, Gemini AI, RSS Feeds, WordPress REST API | `Active` |
+| **🎯 Lead Scraper** | [`src/lead_scraper`](./src/lead_scraper) | Searches Google Maps places, filters out duplicate rows in Google Sheets database, and logs new records. | n8n, Google Maps & Places APIs, Google Sheets | `Active` |
 
 ---
 
-## 🛠️ Quick Start Guide
+## 🛠️ Quick Start
 
-Setting up your digital assistants is easy:
+Deploying a workflow from the hub onto your n8n instance is fast:
 
-1. **Clone this workspace** to your local machine.
-2. Go to the workflow folder you want inside [`src/`](./src/README.md) and open its setup guide.
-3. Import the `agent.json` file into your own **n8n instance**.
-4. Configure your private API keys or accounts (e.g. Gemini key, WordPress credentials) inside the n8n nodes.
-5. Turn the workflow **ON** and let it do the work!
+1. **Clone this repository** to your local machine.
+2. Select your target assistant from the [`src/`](./src/README.md) directory and open its documentation.
+3. Download the `agent.json` file inside the package folder.
+4. Import the JSON file directly into your **n8n instance** dashboard.
+5. Provide your private API keys (e.g. Gemini key, WordPress credentials) inside the n8n credential fields.
+6. Toggle the workflow status to **Active** and run a test build!
 
 ---
 
 > [!IMPORTANT]
-> **Safety First:** The exported workflow JSON files in this repository are sanitized. They do not contain any private API keys, passwords, or personal credentials. Make sure you replace the placeholders with your own keys when configuring them in n8n.
+> **Credential Safety:** The exported workflow JSON configurations are sanitized. Private credentials, passwords, and tokens have been replaced with uppercase placeholders (e.g., `ENTER_YOUR_API_KEY`). Ensure you replace them with your own credentials during setup in n8n.
 
 > [!TIP]
-> **Want to contribute?** If you have improvements or want to add a new workflow, please read our [Contributing Guide](./docs/CONTRIBUTING.md) first to keep the repository layout clean.
+> **Contributions:** If you want to make updates, fix issues, or share a new assistant package, please review the [Contributing Guide](./docs/CONTRIBUTING.md) to maintain repository styling standards.

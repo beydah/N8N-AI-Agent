@@ -6,15 +6,13 @@
 
 ---
 
-We love contributions! To keep our repository clean, well-structured, and easy for everyone to use, we follow a simple set of guidelines when making updates. 
-
-Whether you are fixing a typo, updating an existing agent, or adding a brand new workflow, please follow this guide.
+Thank you for contributing! To keep our repository clean, well-structured, and accessible to the n8n community, we follow a set of layout guidelines and standards when editing or adding new workflows.
 
 ---
 
 ## 🔄 Contribution Flow
 
-Here is the step-by-step contribution flow to follow:
+Propose updates and extensions using this flow:
 
 ```mermaid
 graph TD
@@ -23,55 +21,52 @@ graph TD
     Validate --> Docs["4. Update README documentation"]
     Docs --> Test["5. Test in n8n instance"]
     Test --> PR["6. Open a Pull Request"]
-
-    style Start fill:#f9f,stroke:#333
-    style PR fill:#bfb,stroke:#333
 ```
 
 ---
 
 ## 📁 Repository Layout
 
-To make it easy to find everything, our workspace follows a strict folder structure:
+The workspace is organized as follows:
 
 ```text
-src/                          <-- Where all workflow folders live
+src/                          <-- All workflow package directories
   contect_creator/            <-- Content Creator package
-    agent.json                <-- Sanitized n8n workflow file
-    README.md                 <-- Setup guide for this specific workflow
+    agent.json                <-- Sanitized n8n workflow configuration
+    README.md                 <-- Package setup instructions
   wordpress_blogger/          <-- WordPress Blogger package
-    agent.json                <-- Sanitized n8n workflow file
-    README.md                 <-- Setup guide for this specific workflow
-  lead_generator/             <-- Lead Generator package
-    agent.json                <-- Sanitized n8n workflow file
-    README.md                 <-- Setup guide for this specific workflow
-docs/                         <-- General guides and policies
+    agent.json                <-- Sanitized n8n workflow configuration
+    README.md                 <-- Package setup instructions
+  lead_scraper/               <-- Lead Scraper package
+    agent.json                <-- Sanitized n8n workflow configuration
+    README.md                 <-- Package setup instructions
+docs/                         <-- General guides and policy documents
   README.md                   <-- Documentation hub index
   CONTRIBUTING.md             <-- This file
-  SECURITY.md                 <-- Secret & credential policies
+  SECURITY.md                 <-- Secret & credential handling guidelines
 ```
 
 ---
 
 ## 📜 Documentation Standards
 
-Every workflow package must have its own **`README.md`** inside its folder. That README must contain:
-1. **Overview:** A short explanation of what the workflow does in simple terms.
-2. **Workflow Diagram:** A clean, easy-to-read `graph TD` Mermaid diagram showing the workflow blocks.
-3. **Prerequisites:** List of services or APIs required (e.g. WordPress account, Gemini key).
-4. **Step-by-step Setup:** Clear setup instructions.
-5. **Troubleshooting Table:** A list of common problems and how to solve them.
+Every workflow package directory must contain its own setup **`README.md`**. This setup guide must include:
+1. **Overview:** A clear description of the workflow's features and logic.
+2. **Operational Diagram:** An SVG graphic or standard TD Mermaid diagram displaying the data flow.
+3. **Prerequisites:** A list of third-party APIs, credentials, and configuration targets (e.g. Google Sheets schema).
+4. **Step-by-step Setup:** Clear deployment and configuration instructions.
+5. **Troubleshooting Table:** Solutions for common errors (e.g., API limits, permission issues).
 
 ---
 
 ## 🛡️ Workflow Safety Standards
 
-Before saving and submitting a workflow:
-- **Clean Node Names:** Use descriptive names for your n8n blocks (e.g., `Add Post` instead of `HTTP Request 5`).
-- **No Private Secrets:** Ensure you replace all private API keys, passwords, and tokens with uppercase placeholders like `ENTER_YOUR_API_KEY`.
-- **Set Inactive by Default:** Set `"active": false` in the workflow settings.
+Before saving and submitting a workflow package:
+* **Descriptive Node Names:** Avoid default labels. Use descriptive names representing their roles (e.g., `Add Post` instead of `HTTP Request 5`).
+* **Sanitize Secrets:** Replace all private API keys, passwords, and custom tokens with generic uppercase placeholders (e.g., `ENTER_YOUR_API_KEY`).
+* **Workflow Status:** Set `"active": false` inside the workflow parameters in the JSON file.
 
 ---
 
 > [!IMPORTANT]
-> **Check your diffs:** Always check your `git diff` before submitting a Pull Request to make sure you have not left a private password or token inside the `agent.json` files.
+> **Check Diffs:** Always run `git diff` before committing to ensure you have not accidentally left a live credentials string or sandbox URL in the JSON files.

@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="100%" height="100%">
+  <defs>
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.05" />
+    </filter>
+    
+    <!-- Linear Gradients -->
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    
+    <linearGradient id="geminiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    
+    <linearGradient id="darkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="900" height="500" rx="16" fill="#f8fafc" />
+  <rect x="1" y="1" width="898" height="498" rx="15" fill="none" stroke="#e2e8f0" stroke-width="2" />
+
+  <!-- Grid Accents -->
+  <line x1="100" y1="0" x2="100" y2="500" stroke="#f1f5f9" stroke-width="1" />
+  <line x1="250" y1="0" x2="250" y2="500" stroke="#f1f5f9" stroke-width="1" />
+  <line x1="650" y1="0" x2="650" y2="500" stroke="#f1f5f9" stroke-width="1" />
+  <line x1="800" y1="0" x2="800" y2="500" stroke="#f1f5f9" stroke-width="1" />
+
+  <!-- Main Headers -->
+  <text x="40" y="55" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="800" fill="#0f172a">🤖 n8n AI Agent Hub Architecture</text>
+  <text x="40" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#64748b">Unified orchestration of triggers, cognitive processing via Google Gemini, and automated targets</text>
+
+  <!-- Connection Paths -->
+  <!-- Left to Center -->
+  <path d="M 200 170 L 330 250" fill="none" stroke="#cbd5e1" stroke-width="2" />
+  <path d="M 200 250 L 330 250" fill="none" stroke="#cbd5e1" stroke-width="2" />
+  <path d="M 200 330 L 330 250" fill="none" stroke="#cbd5e1" stroke-width="2" />
+  
+  <!-- Center to Brain (Gemini) -->
+  <path d="M 420 200 L 420 150" fill="none" stroke="#a855f7" stroke-width="2" stroke-dasharray="4 4" />
+  
+  <!-- Center to Right Targets -->
+  <path d="M 510 250 L 640 170" fill="none" stroke="#cbd5e1" stroke-width="2" />
+  <path d="M 510 250 L 640 250" fill="none" stroke="#cbd5e1" stroke-width="2" />
+  <path d="M 510 250 L 640 330" fill="none" stroke="#cbd5e1" stroke-width="2" />
+
+  <!-- COLUMN 1: TRIGGERS / SOURCES -->
+  <!-- Triggers Box -->
+  <g transform="translate(40, 110)" filter="url(#shadow)">
+    <rect width="160" height="270" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" />
+    <text x="80" y="35" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">📥 INPUT SOURCES</text>
+    
+    <!-- Item 1 -->
+    <rect x="15" y="60" width="130" height="45" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+    <text x="25" y="87" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#334155">📡 RSS Feeds</text>
+    
+    <!-- Item 2 -->
+    <rect x="15" y="125" width="130" height="45" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+    <text x="25" y="152" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#334155">📋 Webhook Forms</text>
+    
+    <!-- Item 3 -->
+    <rect x="15" y="190" width="130" height="45" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+    <text x="25" y="217" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#334155">✍️ Manual Topics</text>
+    
+    <text x="80" y="255" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Polled daily or triggered on-demand</text>
+  </g>
+
+  <!-- COLUMN 2: ORCHESTRATOR (n8n Hub) -->
+  <g transform="translate(330, 200)" filter="url(#shadow)">
+    <rect width="180" height="100" rx="12" fill="url(#primaryGrad)" />
+    <text x="90" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle">n8n Engine</text>
+    <text x="90" y="65" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#bfdbfe" text-anchor="middle">Orchestration Hub</text>
+    <text x="90" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#93c5fd" text-anchor="middle">(Workflows &amp; Node Maps)</text>
+  </g>
+
+  <!-- BRAIN: COGNITIVE SERVICES (Gemini AI) -->
+  <g transform="translate(330, 110)" filter="url(#shadow)">
+    <rect width="180" height="40" rx="20" fill="url(#darkGrad)" stroke="#334155" stroke-width="1.5" />
+    <!-- Glowing Accent -->
+    <circle cx="25" cy="20" r="6" fill="#38bdf8" />
+    <text x="100" y="25" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">✨ Google Gemini AI</text>
+  </g>
+
+  <!-- COLUMN 3: TARGET PRODUCTS / SERVICES -->
+  <!-- Targets Box -->
+  <g transform="translate(640, 110)" filter="url(#shadow)">
+    <rect width="220" height="270" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" />
+    <text x="110" y="35" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">📤 AUTOMATED OUTPUTS</text>
+    
+    <!-- Item 1 -->
+    <rect x="20" y="60" width="180" height="45" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+    <text x="30" y="87" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#1e293b">📝 WordPress Publications</text>
+    
+    <!-- Item 2 -->
+    <rect x="20" y="125" width="180" height="45" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+    <text x="30" y="152" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#1e293b">📊 Google Sheets Database</text>
+    
+    <!-- Item 3 -->
+    <rect x="20" y="190" width="180" height="45" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+    <text x="30" y="217" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#1e293b">🔗 Google Drive / LinkedIn</text>
+    
+    <text x="110" y="255" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Sanitized, verified, and live-updated</text>
+  </g>
+</svg>
