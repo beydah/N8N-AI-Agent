@@ -1,40 +1,53 @@
-# Documentation Hub
+# 📖 Documentation Hub
 
-[Back to Home](../README.md) | [Go Source](../src/README.md) | [Go Content Creator](../src/contect_creator/README.md) | [Go Lead Generator](../src/lead_generator/README.md) | [Go Contributing](./CONTRIBUTING.md) | [Go Security](./SECURITY.md)
+<p align="center">
+  <b>🏡 <a href="../README.md">Repository Home</a></b> • <b>📖 Docs Overview</b> • 📁 <a href="../src/README.md">Source Packages</a> • 🛡️ <a href="./SECURITY.md">Security Policy</a> • ✍️ <a href="./CONTRIBUTING.md">Contributing Guide</a>
+</p>
 
-Use this section as the starting point for repository standards, workflow documentation, and operational guidance. The goal is to keep setup instructions close to each workflow while central guidance lives under `docs/`.
+---
 
-## Documentation Map
+Welcome to the **Documentation Hub**. This section provides the central standards, guidelines, and safety policies for utilizing and extending the workflows in this repository.
+
+To keep things organized, setup guides specific to a workflow are stored right next to their code (inside the `src/` folder), while overall rules and policies live here.
+
+---
+
+## 🗺️ Documentation Directory Map
+
+Here is how the documentation is structured:
 
 ```mermaid
 graph TD
-    Docs["docs/"] --> Overview["README.md"]
-    Docs --> Contributing["CONTRIBUTING.md"]
-    Docs --> Security["SECURITY.md"]
-    Overview --> Source["src/README.md"]
-    Source --> Content["Content Creator"]
-    Source --> Leads["Lead Generator"]
+    Docs["📖 docs/ Overview"] --> Contributing["✍️ CONTRIBUTING.md"]
+    Docs --> Security["🛡️ SECURITY.md"]
+    Docs -.-> RootReadme["🏡 README.md (Root)"]
+    RootReadme --> SourceReadme["📁 src/ README (Workflows)"]
+
+    style Docs fill:#f9f,stroke:#333,stroke-width:2px
+    style Contributing fill:#bbf,stroke:#333,stroke-width:1px
+    style Security fill:#bbf,stroke:#333,stroke-width:1px
 ```
 
-## What Lives Here
+---
 
-| Document | Purpose |
-| :--- | :--- |
-| [README.md](./README.md) | Main documentation index and jump-off point for the repo. |
-| [CONTRIBUTING.md](./CONTRIBUTING.md) | Standards for editing workflows, docs, and pull requests. |
-| [SECURITY.md](./SECURITY.md) | Rules for secrets, exports, and reporting vulnerabilities. |
+## 📚 General Guides
 
-## Workflow Entry Points
-
-| Workflow | Summary | Go To |
+| Document | What is it about? (Simple Terms) | Why read it? |
 | :--- | :--- | :--- |
-| Content Creator | SEO content generation and publishing flow. | [Go Content Creator](../src/contect_creator/README.md) |
-| Lead Generator | Google Maps lead capture and deduplication flow. | [Go Lead Generator](../src/lead_generator/README.md) |
+| **[✍️ Contributing Guide](./CONTRIBUTING.md)** | Rules for editing workflows, layout standards, and folders. | Read this before creating a pull request or changing node configurations. |
+| **[🛡️ Security Policy](./SECURITY.md)** | Guidelines on API keys, secret credentials, and private data. | Read this to ensure you do not leak your credentials when exporting workflows. |
 
-## Recommended Reading Order
+---
 
-1. Start at [Back to Home](../README.md).
-2. Open the [source index](../src/README.md).
-3. Read the workflow README you want to use.
-4. Check [security guidance](./SECURITY.md) before exporting or sharing workflow JSON files.
-5. Check [contributing guidance](./CONTRIBUTING.md) before making structural changes.
+## 🚀 Workflow Entry Points
+
+Need help setting up a specific automated agent? Go directly to its setup instructions:
+
+- **✍️ [Content Creator Guide](../src/contect_creator/README.md)** - Generates high-quality blog content and asset draft packages.
+- **🤖 [WordPress Blogger Guide](../src/wordpress_blogger/README.md)** - Automates a daily RSS tech news blog writer and cover image publisher.
+- **🎯 [Lead Generator Guide](../src/lead_generator/README.md)** - Automates Google Maps business search, deduplication, and Google Sheet logging.
+
+---
+
+> [!TIP]
+> Always read the **[Security Policy](./SECURITY.md)** before sharing or exporting any custom n8n JSON files to prevent private API keys from being leaked to public repositories.

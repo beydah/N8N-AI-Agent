@@ -1,39 +1,48 @@
-# Security Guide
+# 🛡️ Security Policy
 
-[Back to Docs](./README.md) | [Back to Home](../README.md) | [Go Source](../src/README.md) | [Go Content Creator](../src/contect_creator/README.md) | [Go Lead Generator](../src/lead_generator/README.md) | [Go Contributing](./CONTRIBUTING.md)
+<p align="center">
+  <b>🏡 <a href="../README.md">Repository Home</a></b> • 📖 <a href="./README.md">Docs Overview</a> • 📁 <a href="../src/README.md">Source Packages</a> • <b>🛡️ Security Policy</b> • ✍️ <a href="./CONTRIBUTING.md">Contributing Guide</a>
+</p>
 
-These workflows connect to external APIs and publishing systems, so exported JSON files should be treated as configuration artifacts that can accidentally leak secrets if they are not cleaned before commit.
+---
 
-## Core Rules
+Since these automation workflows connect directly to your live website, AI providers, and social accounts, **keeping credentials secure is our absolute priority**. 
 
-- Never commit live API keys, tokens, or private IDs in `agent.json`.
-- Prefer n8n credentials over inline values whenever possible.
-- Replace exported secrets with placeholders such as `ENTER_YOUR_API_KEY`.
-- Review the diff before every commit and before every push.
+Please read this policy to make sure you protect your API keys and accounts when using or editing these workflows.
 
-## Safe Export Checklist
+---
 
-- [ ] All API keys are placeholders.
-- [ ] OAuth or account names in screenshots and examples are safe to publish.
-- [ ] Test data does not expose private business or customer information.
-- [ ] Links in README files do not point to private endpoints.
+## 🔒 Golden Rules of Safety
 
-## If a Secret Was Committed
+- **Never Commit Secrets:** Do not commit actual passwords, private tokens, or live API keys to this repository.
+- **Use n8n Credentials:** Always use n8n's built-in credential management fields instead of hardcoding API keys in code or HTTP request headers.
+- **Replace with Placeholders:** If you export a workflow from n8n to share, edit the JSON file first and replace any private names or values with uppercase placeholders (e.g. `ENTER_YOUR_API_KEY`).
 
-1. Rotate the secret at the provider immediately.
-2. Remove the value from the current files.
-3. Rewrite the affected git history if the secret was pushed.
-4. Force-push the cleaned branch only after verifying the replacement commit.
+---
 
-## Vulnerability Reporting
+## 📋 Safe Export Checklist
 
-Do not open a public issue for a security problem.
+Before sharing your customized workflow files:
+- [ ] No real API keys or tokens are in the JSON file.
+- [ ] Account and username identifiers in settings or URLs are cleaned.
+- [ ] Test data in the code nodes does not contain private customer info.
+- [ ] No test links point to private sandbox or staging portals.
 
-- Private report: [GitHub Security Advisory](https://github.com/beydah/N8N-AI-Agent/security/advisories/new)
-- Email: `info.beydahsaglam@gmail.com`
+---
 
-## Related Documents
+## 🚨 What to do if a Secret is Leaked?
 
-- [Back to Home](../README.md)
-- [Go Docs](./README.md)
-- [Go Contributing](./CONTRIBUTING.md)
+If you accidentally commit a live secret:
+1. **Change it immediately** at the provider (e.g., rotate your Gemini key, change your WordPress application password).
+2. Delete the value from the file locally.
+3. Clean your Git commit history to erase the secret from history.
+4. Push the cleaned branch only after verifying it is safe.
+
+---
+
+## ✉️ Vulnerability Reporting
+
+If you find a security bug or a leak, please **do not open a public issue**. Contact us privately:
+
+- **Private Advisory:** [GitHub Security Advisory Portal](https://github.com/beydah/N8N-AI-Agent/security/advisories/new)
+- **Direct Email:** `info.beydahsaglam@gmail.com`

@@ -1,0 +1,831 @@
+{
+    "name": "WordPress-Blogger_Beydah",
+    "nodes": [
+        {
+            "parameters": {
+                "content": "## Publish\n",
+                "height": 704,
+                "width": 592,
+                "color": 5
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "position": [
+                256,
+                -128
+            ],
+            "typeVersion": 1,
+            "id": "923bdb01-228b-4d86-83f0-e8c51bd4bab3",
+            "name": "Sticky Note7"
+        },
+        {
+            "parameters": {
+                "content": "## Producing",
+                "height": 224,
+                "width": 704,
+                "color": 5
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "position": [
+                -464,
+                -128
+            ],
+            "typeVersion": 1,
+            "id": "8cc06154-1846-449a-842f-388b626a3aab",
+            "name": "Sticky Note8"
+        },
+        {
+            "parameters": {
+                "content": "## Schedule",
+                "height": 224,
+                "width": 214,
+                "color": 5
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "position": [
+                -688,
+                -128
+            ],
+            "typeVersion": 1,
+            "id": "d393ad55-2c0c-49a0-b3c4-23441dd57e78",
+            "name": "Sticky Note9"
+        },
+        {
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "triggerAtHour": 23
+                        }
+                    ]
+                }
+            },
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1.3,
+            "position": [
+                -592,
+                -80
+            ],
+            "id": "4d4fb0e4-611a-4bb2-93ca-8f72b50c82e1",
+            "name": "Schedule",
+            "retryOnFail": false
+        },
+        {
+            "parameters": {
+                "url": "https://venturebeat.com/category/ai/feed",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -384,
+                -80
+            ],
+            "id": "751913a0-ef31-4489-a6a2-d7759ae84a63",
+            "name": "RSS",
+            "retryOnFail": true
+        },
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.limit",
+            "typeVersion": 1,
+            "position": [
+                -144,
+                -80
+            ],
+            "id": "61e07d1a-a28a-40af-a7b3-4523a4c4905f",
+            "name": "Limit",
+            "alwaysOutputData": true
+        },
+        {
+            "parameters": {
+                "content": "## Content Generation",
+                "height": 464,
+                "width": 336,
+                "color": 5
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "position": [
+                -464,
+                112
+            ],
+            "typeVersion": 1,
+            "id": "bca7e306-91b0-4b83-98db-0a2d8fc0af67",
+            "name": "Sticky Note"
+        },
+        {
+            "parameters": {
+                "modelName": "models/gemini-3-flash-preview",
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                -624,
+                208
+            ],
+            "id": "6dc60958-3946-4280-a25c-772c0161247a",
+            "name": "First Model",
+            "retryOnFail": true,
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "ENTER_YOUR_GEMINI_API_ID",
+                    "name": "ENTER YOUR API KEY"
+                }
+            },
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                -624,
+                368
+            ],
+            "id": "2c554cf4-82a2-4e22-b680-f76151e7b917",
+            "name": "Fallback Model",
+            "retryOnFail": true,
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "ENTER_YOUR_GEMINI_API_ID",
+                    "name": "ENTER YOUR API KEY"
+                }
+            },
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "jsonSchemaExample": "{\n  \"title\": \"SEO Title\",\n  \"meta\": \"SEO Meta Desc\",\n  \"content\": \"html-content\",\n  \"slug\": \"english-slug\",\n  \"wp-key\": \"key\",\n  \"yoast-key\": \"key\"\n}",
+                "autoFix": true
+            },
+            "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+            "typeVersion": 1.3,
+            "position": [
+                -400,
+                368
+            ],
+            "id": "3313396b-26a8-4df4-8916-140bd142181a",
+            "name": "Parser",
+            "retryOnFail": true,
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "=https://beydahsaglam.com/wp-json/wp/v2/tags",
+                "authentication": "predefinedCredentialType",
+                "nodeCredentialType": "wordpressApi",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={\n  \"name\": \"{{ $('Writer').item.json.output['wp-key'] }}\",\n  \"description\": \"{{ $('Writer').item.json.output['wp-key'] }}\"\n}",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.4,
+            "position": [
+                304,
+                208
+            ],
+            "id": "b3d61375-9d91-4034-877b-18936cf56aa5",
+            "name": "Add Key",
+            "retryOnFail": true,
+            "credentials": {
+                "httpBasicAuth": {
+                    "id": "ENTER_YOUR_HTTP_BASIC_AUTH_ID",
+                    "name": "ENTER YOUR APP PASSWORD"
+                },
+                "wordpressApi": {
+                    "id": "ENTER_YOUR_WORDPRESS_API_ID",
+                    "name": "ENTER YOUR APP PASSWORD"
+                }
+            },
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "url": "=https://beydahsaglam.com/wp-json/wp/v2/tags",
+                "authentication": "predefinedCredentialType",
+                "nodeCredentialType": "wordpressApi",
+                "sendQuery": true,
+                "queryParameters": {
+                    "parameters": [
+                        {
+                            "name": "search",
+                            "value": "={{ $('Writer').item.json.output['wp-key'] }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.4,
+            "position": [
+                304,
+                416
+            ],
+            "id": "ea52ab3c-c8b6-4307-ba84-751d9b1f7d3b",
+            "name": "Get Key",
+            "retryOnFail": true,
+            "credentials": {
+                "httpBasicAuth": {
+                    "id": "ENTER_YOUR_HTTP_BASIC_AUTH_ID",
+                    "name": "ENTER YOUR APP PASSWORD"
+                },
+                "wordpressApi": {
+                    "id": "ENTER_YOUR_WORDPRESS_API_ID",
+                    "name": "ENTER YOUR APP PASSWORD"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "=https://beydahsaglam.com/wp-json/wp/v2/posts",
+                "authentication": "predefinedCredentialType",
+                "nodeCredentialType": "wordpressApi",
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "title",
+                            "value": "={{ $('Writer').item.json.output.title }}"
+                        },
+                        {
+                            "name": "content",
+                            "value": "={{ $('Writer').item.json.output.content }}"
+                        },
+                        {
+                            "name": "excerpt",
+                            "value": "={{ $('Writer').item.json.output.meta }}"
+                        },
+                        {
+                            "name": "slug",
+                            "value": "={{ $('Writer').item.json.output.slug }}"
+                        },
+                        {
+                            "name": "featured_media",
+                            "value": "={{ $('Add Img').item.json.id }}"
+                        },
+                        {
+                            "name": "tags",
+                            "value": "={{ [ $json.id ] }}"
+                        },
+                        {
+                            "name": "status",
+                            "value": "publish"
+                        },
+                        {
+                            "name": "meta",
+                            "value": "={{ { \"_yoast_wpseo_focuskw\": $('Writer').item.json.output['yoast-key'] } }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.4,
+            "position": [
+                704,
+                416
+            ],
+            "id": "5ee575bd-112e-4522-b0dc-ae4346e57b6c",
+            "name": "Add Post Fallback",
+            "retryOnFail": true,
+            "credentials": {
+                "httpBasicAuth": {
+                    "id": "ENTER_YOUR_HTTP_BASIC_AUTH_ID",
+                    "name": "ENTER YOUR APP PASSWORD"
+                },
+                "wordpressApi": {
+                    "id": "ENTER_YOUR_WORDPRESS_API_ID",
+                    "name": "ENTER YOUR APP PASSWORD"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "=Content: \"{{ $json.output.content }}\"",
+                "hasOutputParser": true,
+                "needsFallback": true,
+                "options": {
+                    "systemMessage": "# Image Prompt Generator Model System Prompt\n\nYou are the Image Prompt Generator Model. Your role is to analyze an article's content and autonomously conceptualize and write one highly detailed, production-ready image generation prompt for a 4:3 horizontal blog cover image.\n\nYou do not generate the image. You only generate the final text prompt for the image generator.\n\nYou must always return valid JSON only.\n\n## 1. Role and Main Objective\n\nYour main objective is to create one strong, highly detailed image prompt for a blog cover image based entirely on the provided text.\n\nYou will receive only one input:\n- content: the article content\n\nYou must analyze this content, invent a compelling visual metaphor, and write a highly detailed visual scene description.\n\nThe final image prompt must always prioritize this strict visual direction:\n- pixel-art\n- Minecraft-style\n- voxel-based\n- blocky world design\n- detailed game-like environment\n- 4:3 horizontal composition\n- no text\n- rich visual storytelling\n- high detail\n- blog cover quality\n\nThis is the most important rule:\nThe output image must look like a detailed Minecraft-style pixel-art artwork, not a generic SaaS illustration, not a flat vector banner, not a realistic photo, and not a minimal corporate design. The image should feel like a premium voxel artwork or high-quality block-based pixel-art scene made for a professional blog cover.\n\n## 2. Content Analysis and Conceptualization\n\nSince you will not receive a starting visual direction, you must act as an Art Director. Analyze the `content` to understand:\n- the main topic\n- the software or technology category\n- the reader problem\n- the core message\n- the service angle\n\nBased on this analysis, you must invent a powerful visual metaphor and translate the abstract concepts of the article into a physical, blocky voxel world.\n\nExamples of autonomous conceptualization:\n- If the content is about WordPress websites, invent a voxel website building scene with blocky browser windows, page sections, dashboards, modular layouts, builders, creators or robot helpers assembling a digital structure.\n- If the content is about n8n automation, invent a voxel automation lab with connected nodes, pipelines, data routes, floating blocks, process chains, integration links and robot assistants managing the flow.\n- If the content is about TradingView Pine Script indicators, invent a voxel trading desk, pixel-art charts, abstract candlestick forms, signal indicators, analysis screens and an analyst avatar, while keeping all visuals unreadable and text-free.\n- If the content is about AI Agents, invent a blocky futuristic control center where voxel robots are actively monitoring glowing pixel screens, sorting floating data blocks, and collaborating on a modular desk.\n\nAlways transform the text into a vivid, active visual world. Do not just make a symbolic icon. Build a real scene.\n\n## 3. Scene, Composition and Detail Rules\n\nThe final image prompt must describe a complete and visually rich scene.\nIt must include:\n- the invented main concept\n- scene description\n- foreground\n- midground\n- background\n- main subject\n- supporting elements\n- environment details\n- composition\n- color palette\n- lighting\n- mood\n- depth\n- object arrangement\n- quality instructions\n- negative instructions\n\nThe final image must be 4:3 horizontal and clearly suitable for a post cover or blog banner. The composition must feel full and detailed with a strong center of interest and many supporting details around it. The scene should feel handcrafted and immersive.\n\nUse Minecraft-style and pixel-art elements such as:\n- voxel characters & blocky avatars\n- robot helpers\n- cube-based tools & block structures\n- pixel-art screens & voxel desks\n- floating cubes & modular platforms\n- stylized block environments & machines\n- tiny decorative items & glowing cube elements\n- voxel charts & layered isometric-like block scenes\n- workshop spaces, control rooms, or digital construction zones\n\nThe environment should be visually dense, but not messy. The image must not feel empty. Do not create a single isolated object on a blank background. Use clear foreground, midground, and background separation.\n\n## 4. Visual Style, Quality and Restrictions\n\nThe required style is strictly:\n- pixel-art\n- Minecraft-style\n- voxel art\n- block-based illustration\n- detailed game-inspired artwork\n- soft atmospheric lighting\n- professional cover art quality\n\nImportant quality rules:\n- avoid cheap flat design\n- avoid empty compositions\n- avoid bland corporate graphics\n- avoid generic stock illustration style\n- avoid overly smooth realistic rendering\n- avoid lifeless compositions\n\nText is strictly forbidden. The image must not contain:\n- text, letters, words, numbers, captions, labels\n- UI text, signs, logos with readable branding\n- watermarks, signatures\n- readable chart values, buttons, or menus\n\nIf a screen, chart, or interface appears, it must stay abstract and unreadable. Do not request real copyrighted characters or brand mascots. Create original voxel characters only.\n\n## 5. Output Format and Final Check\n\nReturn only one valid JSON object.\nDo not add explanations before or after the JSON.\nDo not use Markdown.\nDo not wrap the JSON in a code block.\n\nUse this exact structure:\n\n{\n  \"image-prompt\": \"Your highly detailed, English image prompt goes here...\"\n}\n\nBefore returning the JSON, internally check:\n- Did you successfully invent a visual scene based ONLY on the content?\n- Is the visual style clearly pixel-art and Minecraft-style?\n- Is the composition clearly 4:3 horizontal?\n- Are foreground, midground, and background described?\n- Is text fully forbidden?\n- Is the output valid JSON only without markdown formatting?\n\nIf any check fails, revise the prompt before responding."
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 3.1,
+            "position": [
+                -64,
+                160
+            ],
+            "id": "1ee6dbf9-a984-4ee0-9c0b-a8c8e548eac6",
+            "name": "Designer",
+            "retryOnFail": true
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "=RSS News: \"{{ $('Limit').item.json.contentSnippet }}\"\nLast Post: \"{{ $json.content.rendered }}\"",
+                "hasOutputParser": true,
+                "needsFallback": true,
+                "options": {
+                    "systemMessage": "# SEO Content Generator AI System Prompt\n\nYou are SEO Content Generator AI. Your role is to generate useful, search friendly, AI First SEO compatible and content focused blog output for a WordPress website. Every article must be based on a current RSS agenda event, mapped to one allowed content category, written for real readers, designed as WordPress compatible HTML, and returned as valid JSON only. You must follow the five sections below.\n\n## 1. SEO\n\nWrite for Google search intent, real readers and information value first. Each article must have one clear search intent, one focused topic, one practical reader problem and one clear answer. The title must look like something a real user may search on Google. The meta description must explain what the reader will learn. Use one Turkish Yoast focus key and one English WordPress key naturally. Do not use keyword stuffing. Answer the main question early. Make the first visible paragraph direct, useful and search aligned. Use descriptive headings that match common search patterns such as what it is, why it matters, when it is needed, how to decide, what to avoid, how it works or what to compare. Avoid generic filler, repeated ideas, exaggerated claims, unsupported statements, pressure based selling and long theory. The article must be useful even if the reader ignores the final CTA.\n\n## 2. SMO\n\nMake the article suitable for social previews, link cards and sharing. The title, meta description and first visible paragraph must be understandable when seen alone. The article must feel practical, professional, clear and worth saving. Avoid clickbait, fake urgency, emotional pressure and exaggerated marketing language. Use a strong opening that shows the problem and the value quickly. Include visually readable HTML sections that improve the reading experience. The final CTA may mention contact or project review, but the article must not behave like a sales page.\n\n## 3. AI First SEO\n\nWrite in a way that AI search systems, answer engines and semantic search tools can understand, summarize and recommend easily. Use clear definitions when needed. Explain technical terms simply. Use descriptive h2 and h3 headings. Prefer direct, factual and concise sentences. Do not invent statistics, prices, guarantees, case studies, testimonials or results. If data is not provided, avoid data based claims. The content must include a clear answer, practical explanation, decision support, visual summary and useful context. Make the article extractable into answer snippets by using clear intent based headings. Add FAQ, expandable notes or comparison sections only when they improve clarity.\n\n## 4. Phases\n\nPhase 1: Read RSS agenda data first. The article must be connected to a current event, update, trend, problem or discussion found in the RSS flow. Do not generate a blog post without using an RSS agenda item. If RSS data is not available, do not invent an agenda. Return valid JSON with empty content and explain in Turkish inside the content field that RSS data is required.\n\nPhase 2: Read latest blog data if available. Detect the latest blog category. The new article must not use the same category as the latest blog post. If the latest blog category is unknown, infer it from the latest title and content. If it still cannot be inferred, choose the best allowed category for the RSS agenda.\n\nPhase 3: Match the RSS agenda event with one allowed category from Customization. The selected category must be relevant to the RSS event and must not be the same as the latest blog category. If the strongest category match is the same as the latest blog category, choose the second strongest allowed category and create a natural angle. If no allowed category can be connected to the RSS event, return valid JSON explaining in Turkish inside the content field that the RSS agenda does not match the allowed content range.\n\nPhase 4: Create a specific Google search angle. Do not write broad generic posts. The angle may be informational, problem solution, comparison, decision guide, mistake prevention, use case, maintenance, implementation readiness, risk awareness or technical explanation. The article must cover the RSS agenda through the selected allowed category, not as general news. Do not copy previous titles. Do not create duplicate or near duplicate content.\n\nPhase 5: Create focus keys and English slug. Create one wp-key and one yoast-key. wp-key must be English. yoast-key must be Turkish. Each key must be maximum two words and title case. The yoast-key must appear naturally in the Turkish title, meta and content. The wp-key must be the English equivalent or WordPress friendly version of the same search concept. Do not return a keywords array. Do not return a keyword field. The slug must always be English, lowercase, hyphen separated and ASCII only. The slug must contain maximum four English words. It must be based on the English meaning of the article topic, not Turkish transliteration. It must not contain Turkish words, Turkish characters, spaces, uppercase letters, punctuation, emojis or special symbols.\n\nPhase 6: Create WordPress compatible HTML content. The content field must be HTML, not Markdown. The HTML must be suitable for WordPress Custom HTML blocks, Gutenberg content areas and normal theme rendering. Do not use article, header, footer, main, nav or aside tags inside the content field. Do not use script, iframe, canvas, svg, form, input, external assets, inline JavaScript or event handlers. Do not use style tags. You may use div, section, h1, h2, h3, p, ul, ol, li, strong, em, a, span, blockquote, hr, table, thead, tbody, tr, th, td, small, details and summary. You may use class attributes and lightweight inline style for layout, spacing, borders, backgrounds, radius, cards, tables, visual blocks and link buttons. Use single quotation marks inside HTML attributes. Keep inline styles simple and WordPress safe.\n\nPhase 7: Add high quality visual HTML sections. The content must not be plain text only. Every article must include at least three useful visual HTML structures. Select the structures according to the topic and RSS event. Available structures include hero block, insight cards, comparison table, decision matrix, process timeline, roadmap rail, stacked feature cards, risk and solution board, HTML line chart, HTML candlestick chart, mini bar chart, progress ladder, signal map, architecture diagram made with div blocks, workflow node map, before and after panel, glossary cards, FAQ accordion, checklist grid and CTA panel. Visual sections must explain the topic better. They must not be decorative filler. Do not use chart libraries. Do not invent numeric market data, investment data, performance data or fake analytics. Charts must be conceptual or qualitative unless real values are provided by RSS or user input.\n\nPhase 8: Add safe interactivity and internal links. Include at least one safe interactive area when useful. Use details and summary for FAQ, decision notes, hidden explanations, comparison details or technical clarifications. Do not use JavaScript. Do not create fake calculators, fake forms or fake trading tools. Use internal links only when relevant. Allowed links are only https://beydahsaglam.com/, https://beydahsaglam.com/contact, https://beydahsaglam.com/project, https://beydahsaglam.com/blog, https://beydahsaglam.com/about. The project link may be used for previous projects or available services. Use a tags styled as buttons when appropriate, not button tags. Do not use links outside this list.\n\nPhase 9: Run content value and WordPress quality check. Every major section must teach, clarify, compare, explain, summarize or help the reader decide. Remove sections that only look nice but add little meaning. Keep marketing limited to the final CTA. The article should feel like a useful guide first and a service invitation second. Check that the HTML is mobile friendly, readable inside WordPress, not dependent on external CSS or JavaScript, and not likely to break the page layout.\n\nPhase 10: Run final self check. Confirm that the article uses an RSS agenda item, the selected category is allowed, the selected category is not the latest blog category, the title and meta are Turkish, wp-key is English, yoast-key is Turkish, both keys are maximum two words, the slug is English, the slug is lowercase, the slug is hyphen separated, the slug is ASCII only, the slug has maximum four words, the slug has no Turkish words or Turkish characters, the content is Turkish HTML, the content has no double quotation marks inside field values, the content does not include article or header tags, the content includes at least three useful visual HTML blocks, the content includes safe interactive HTML when useful, all links are from the allowed list, the HTML is WordPress compatible, the article is content focused, the CTA is limited and calm, and the final response is valid JSON. If any check fails, revise before answering.\n\n## 5. Customization\n\nAllowed content topics are only these five categories: WordPress Website, n8n Automation, TradingView Pine Script Indicator, React Web Application, Python Investment Bot. Do not create content outside these categories.\n\nTarget audience: Individual clients looking for freelance software services, small businesses looking for practical software solutions, business owners who need digital tools, and non technical users who need clear explanations before requesting a service.\n\nWebsite information: Target website is https://beydahsaglam.com/. The website represents Ilkay Beydah Saglam, a personal software developer brand focused on freelance and service oriented software solutions. The content must support the website as a reliable personal developer brand, not as a large agency.\n\nMain content goal: Search, Read, Understand, Decide, Lead. Each article must help the reader find useful information, understand the topic, compare options, make a clearer decision and only then consider contact. The article must provide useful default information first. The CTA must appear naturally near the end and should not dominate the content.\n\nTone: Professional, clear, simple, trustworthy, practical, direct and content focused. Avoid overly corporate wording, overly casual wording, pressure based selling, fear based selling, unnecessary jargon, long theory, empty motivational sentences and repeated service promotion.\n\nLanguage and format: The title, meta description and content must be Turkish. The wp-key must be English. The yoast-key must be Turkish. The slug must always be English. The final answer must be a valid JSON object only. Do not add explanations before or after the JSON. Do not wrap the JSON in a code block. Do not add comments. Return exactly these keys in this order: title, meta, wp-key, yoast-key, slug, content.\n\nQuotation rule: Use valid JSON syntax for object keys and string boundaries. Do not place double quotation marks inside any field value. This means title, meta, wp-key, yoast-key, slug and content values must not contain double quotation marks. In HTML, use single quotation marks for all attributes. Avoid quoted phrases in visible text. Do not use typographic quotation marks either.\n\nField rules: The title must be Turkish, SEO focused and suitable for Google search behavior. The meta must be Turkish and suitable for search and social preview. The wp-key must be English, maximum two words and title case. The yoast-key must be Turkish, maximum two words, title case and naturally repeated in the title, meta and content. The slug must always be English, lowercase, hyphen separated and ASCII only. The slug must contain maximum four English words. The content must be Turkish HTML, usually 500 to 900 words, with one h1 title, simple h2 and h3 headings, short paragraphs, WordPress compatible sections, at least three useful visual HTML blocks, at least one relevant internal link opportunity, at least one safe interactive section and a soft final CTA.\n\nHTML design guidance: The content should look like a modern blog article when rendered inside WordPress. It must not use article or header tags. It should use a flexible structure that adapts to the topic. It may include a hero style section, insight cards, a comparison table, a visual chart block, a workflow map, a roadmap rail, expandable FAQ and a CTA block. Use internal links as styled a tags when relevant. Use single quotation marks inside HTML attributes only. Use inline styles carefully and only when they improve readability. Avoid fixed widths that may break mobile layouts.\n\nHTML visual design options: Use tables for comparison and decision support. Use card groups for benefits, risks, concepts or mistakes. Use timeline rails for process explanation. Use HTML line charts for conceptual trend explanation. Use HTML candlestick charts only when the topic is TradingView Pine Script Indicator or Python Investment Bot, and only as conceptual visual explanation unless real data is provided. Use workflow node maps for n8n Automation. Use component maps and UI layout cards for React Web Application. Use maintenance boards and page structure blocks for WordPress Website. Use mini HTML bar blocks only for qualitative comparison such as low, medium and high complexity. Do not invent numeric claims.\n\nWordPress HTML restrictions: Do not include CSS code in style tags. Do not include JavaScript. Do not include images inside the content unless provided by the user. Do not use button tags. Do not use form elements. Do not use embedded media. Do not use custom web components. Use a tags styled as buttons for allowed links. Links may only use the allowed URLs. The HTML must be clean enough to paste into a WordPress Custom HTML block without breaking layout, mobile readability or theme structure.\n",
+                    "maxIterations": 10
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 3.1,
+            "position": [
+                -416,
+                160
+            ],
+            "id": "d2cb5ddb-41db-4d53-bc97-d9be0616d288",
+            "name": "Writer",
+            "retryOnFail": true,
+            "alwaysOutputData": false
+        },
+        {
+            "parameters": {
+                "content": "## Image Generation",
+                "height": 464,
+                "width": 352,
+                "color": 5
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "position": [
+                -112,
+                112
+            ],
+            "typeVersion": 1,
+            "id": "f318fb2c-f937-40ac-a086-3d9b5acbcb0b",
+            "name": "Sticky Note1"
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "=https://beydahsaglam.com/wp-json/wp/v2/posts",
+                "authentication": "predefinedCredentialType",
+                "nodeCredentialType": "wordpressApi",
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "title",
+                            "value": "={{ $('Writer').item.json.output.title }}"
+                        },
+                        {
+                            "name": "content",
+                            "value": "={{ $('Writer').item.json.output.content }}"
+                        },
+                        {
+                            "name": "excerpt",
+                            "value": "={{ $('Writer').item.json.output.meta }}"
+                        },
+                        {
+                            "name": "slug",
+                            "value": "={{ $('Writer').item.json.output.slug }}"
+                        },
+                        {
+                            "name": "featured_media",
+                            "value": "={{ $('Add Img').item.json.id }}"
+                        },
+                        {
+                            "name": "tags",
+                            "value": "={{ [ $json.id ] }}"
+                        },
+                        {
+                            "name": "status",
+                            "value": "publish"
+                        },
+                        {
+                            "name": "meta",
+                            "value": "={{ { \"_yoast_wpseo_focuskw\": $('Writer').item.json.output['yoast-key'] } }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.4,
+            "position": [
+                704,
+                192
+            ],
+            "id": "20804e5d-297e-47c8-901f-b809456a8098",
+            "name": "Add Post",
+            "retryOnFail": true,
+            "credentials": {
+                "httpBasicAuth": {
+                    "id": "ENTER_YOUR_HTTP_BASIC_AUTH_ID",
+                    "name": "ENTER YOUR APP PASSWORD"
+                },
+                "wordpressApi": {
+                    "id": "ENTER_YOUR_WORDPRESS_API_ID",
+                    "name": "ENTER YOUR APP PASSWORD"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "jsonSchemaExample": "{\n\t\"image-prompt\": \"Image-Prompt\"\n}",
+                "autoFix": true
+            },
+            "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+            "typeVersion": 1.3,
+            "position": [
+                -48,
+                368
+            ],
+            "id": "58e19d61-fbd0-42f1-a123-fc7d37d07645",
+            "name": "Design Parser"
+        },
+        {
+            "parameters": {
+                "content": "## Models",
+                "height": 464,
+                "width": 208,
+                "color": 5
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "position": [
+                -688,
+                112
+            ],
+            "typeVersion": 1,
+            "id": "26c30b97-178a-46c2-a42e-cb22cfe8efe2",
+            "name": "Sticky Note2"
+        },
+        {
+            "parameters": {
+                "resource": "image",
+                "modelId": {
+                    "__rl": true,
+                    "value": "models/gemini-3.1-flash-image",
+                    "mode": "list",
+                    "cachedResultName": "models/gemini-3.1-flash-image"
+                },
+                "prompt": "={{ $json.output['image-prompt'] }}",
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.googleGemini",
+            "typeVersion": 1.1,
+            "position": [
+                304,
+                -80
+            ],
+            "id": "6c2eb147-ee50-42e6-a3ab-0859f323093e",
+            "name": "Create Img",
+            "retryOnFail": true,
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "ENTER_YOUR_GEMINI_API_ID",
+                    "name": "ENTER YOUR API KEY"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "jsCode": "for (const item of $input.all()) {\n  if (item.binary && item.binary.data) {\n    const newName = $(\"Writer\").item.json.output.slug;\n        item.binary.data.fileName = newName + '.png';\n  }\n}\nreturn $input.all();"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                512,
+                -80
+            ],
+            "id": "f4962361-ce31-4147-ba82-e1c7f297b930",
+            "name": "Set Img"
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://beydahsaglam.com/wp-json/wp/v2/media",
+                "authentication": "predefinedCredentialType",
+                "nodeCredentialType": "wordpressApi",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Content-Disposition",
+                            "value": "=attachment; filename=\"{{ $('Writer').item.json.output.slug }}.png\""
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "contentType": "multipart-form-data",
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "parameterType": "formBinaryData",
+                            "name": "file",
+                            "inputDataFieldName": "=data"
+                        },
+                        {
+                            "name": "title",
+                            "value": "={{ $('Writer').item.json.output.slug }}"
+                        },
+                        {
+                            "name": "alt_text",
+                            "value": "={{ $('Writer').item.json.output.slug }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.4,
+            "position": [
+                704,
+                -80
+            ],
+            "id": "56e9002f-1611-45ff-b043-6565076941f6",
+            "name": "Add Img",
+            "retryOnFail": true,
+            "credentials": {
+                "httpBasicAuth": {
+                    "id": "ENTER_YOUR_HTTP_BASIC_AUTH_ID",
+                    "name": "ENTER YOUR APP PASSWORD"
+                },
+                "wordpressApi": {
+                    "id": "ENTER_YOUR_WORDPRESS_API_ID",
+                    "name": "ENTER YOUR APP PASSWORD"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "operation": "getAll",
+                "limit": 1,
+                "options": {
+                    "categories": [
+                        247
+                    ],
+                    "status": "publish"
+                }
+            },
+            "type": "n8n-nodes-base.wordpress",
+            "typeVersion": 1,
+            "position": [
+                96,
+                -80
+            ],
+            "id": "417a70e5-b927-4f78-8c41-23732d126a4b",
+            "name": "Get Post",
+            "retryOnFail": true,
+            "credentials": {
+                "wordpressApi": {
+                    "id": "ENTER_YOUR_WORDPRESS_API_ID",
+                    "name": "ENTER YOUR APP PASSWORD"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "content": "# 🤖 WordPress AI Blogger\n\nAn automated n8n workflow that reads RSS feeds, writes articles with AI, generates images, and publishes them to WordPress.\n\n## 📋 Requirements\n* **n8n Instance:** Cloud or self-hosted via [n8n.io](https://n8n.io).\n* **Google AI API Key:** For text generation. Get from [Google AI Studio](https://aistudio.google.com/).\n* **WordPress:** Site URL, Username, and Application Password (create this in WP Admin -> Users -> Profile).\n\n## ⚙️ Step-by-Step Process\n\n1.  **⏳ Schedule:** Runs automatically at specific times.\n2.  **📡 Producing:** Gets the latest news via RSS and limits the item count.\n3.  **🧠 AI Models:** Uses Google AI as the main engine, with a fallback model if it fails.\n4.  **✍️ Generation:**\n    * **Writer:** AI reads RSS content and writes a new blog post.\n    * **Designer:** AI creates an image prompt for the article.\n5.  **🚀 Publish:**\n    * Generates the cover image.\n    * Uploads the image to WordPress via HTTP request.\n    * Publishes the final post to WordPress automatically.",
+                "height": 704,
+                "width": 454,
+                "color": 5
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "position": [
+                -1152,
+                -128
+            ],
+            "typeVersion": 1,
+            "id": "ee40bb17-1a70-4b79-9552-d169d3ef2cc5",
+            "name": "Sticky Note10"
+        }
+    ],
+    "pinData": {},
+    "connections": {
+        "Schedule": {
+            "main": [
+                [
+                    {
+                        "node": "RSS",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "RSS": {
+            "main": [
+                [
+                    {
+                        "node": "Limit",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Limit": {
+            "main": [
+                [
+                    {
+                        "node": "Get Post",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "First Model": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "Writer",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    },
+                    {
+                        "node": "Designer",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Fallback Model": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "Writer",
+                        "type": "ai_languageModel",
+                        "index": 1
+                    },
+                    {
+                        "node": "Parser",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    },
+                    {
+                        "node": "Designer",
+                        "type": "ai_languageModel",
+                        "index": 1
+                    },
+                    {
+                        "node": "Design Parser",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Parser": {
+            "ai_outputParser": [
+                [
+                    {
+                        "node": "Writer",
+                        "type": "ai_outputParser",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Add Key": {
+            "main": [
+                [
+                    {
+                        "node": "Add Post",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Get Key",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get Key": {
+            "main": [
+                [
+                    {
+                        "node": "Add Post Fallback",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Designer": {
+            "main": [
+                [
+                    {
+                        "node": "Create Img",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Writer": {
+            "main": [
+                [
+                    {
+                        "node": "Designer",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Design Parser": {
+            "ai_outputParser": [
+                [
+                    {
+                        "node": "Designer",
+                        "type": "ai_outputParser",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Create Img": {
+            "main": [
+                [
+                    {
+                        "node": "Set Img",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Set Img": {
+            "main": [
+                [
+                    {
+                        "node": "Add Img",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Add Img": {
+            "main": [
+                [
+                    {
+                        "node": "Add Key",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get Post": {
+            "main": [
+                [
+                    {
+                        "node": "Writer",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "active": false,
+    "settings": {
+        "executionOrder": "v1",
+        "binaryMode": "separate",
+        "timeSavedMode": "fixed",
+        "callerPolicy": "workflowsFromSameOwner",
+        "availableInMCP": false,
+        "timeSavedPerExecution": 5
+    },
+    "versionId": "",
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "5be92589928b0de4efe393c059289760fbc27fff696c35d698486b52a2613630"
+    },
+    "id": "Pp7U6XpAf9zb6564",
+    "tags": [
+        {
+            "updatedAt": "2026-05-29T09:21:33.429Z",
+            "createdAt": "2026-05-29T09:21:33.429Z",
+            "id": "84T27ALzuIm3Gcat",
+            "name": "Content"
+        },
+        {
+            "updatedAt": "2026-05-29T09:21:36.438Z",
+            "createdAt": "2026-05-29T09:21:36.438Z",
+            "id": "ILxFFfGbnDaMevJn",
+            "name": "Image"
+        },
+        {
+            "updatedAt": "2026-05-29T09:21:46.579Z",
+            "createdAt": "2026-05-29T09:21:46.579Z",
+            "id": "u8uL0DyTmGwociam",
+            "name": "WordPress"
+        }
+    ]
+}

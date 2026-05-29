@@ -1,92 +1,106 @@
-# Lead Generator
+# 🎯 Lead Generator Workflow Agent
 
-[Back to Source](../README.md) | [Back to Home](../../README.md) | [Go Docs](../../docs/README.md) | [Go Content Creator](../contect_creator/README.md) | [Go Lead Generator](./README.md) | [Go Contributing](../../docs/CONTRIBUTING.md) | [Go Security](../../docs/SECURITY.md)
+<p align="center">
+  <b>🏡 <a href="../../README.md">Repository Home</a></b> • 📖 <a href="../../docs/README.md">Docs Overview</a> • 📁 <a href="../README.md">Source Packages</a> • 🎯 <b>Lead Generator</b>
+</p>
 
-![n8n](https://img.shields.io/badge/n8n-Workflow-FF6D5A?style=for-the-badge&logo=n8n)
-![Google Maps](https://img.shields.io/badge/Google%20Maps-Search-4285F4?style=for-the-badge&logo=google-maps)
-![Google Sheets](https://img.shields.io/badge/Google%20Sheets-Database-34A853?style=for-the-badge&logo=google-sheets)
-![JavaScript](https://img.shields.io/badge/JavaScript-Deduplication-F7DF1E?style=for-the-badge&logo=javascript)
+<p align="center">
+  <img src="https://img.shields.io/badge/n8n-Workflow-FF6D5A?style=for-the-badge&logo=n8n" alt="n8n" />
+  <img src="https://img.shields.io/badge/Google_Maps-Search-4285F4?style=for-the-badge&logo=google-maps" alt="Google Maps" />
+  <img src="https://img.shields.io/badge/Google_Sheets-Database-34A853?style=for-the-badge&logo=google-sheets" alt="Google Sheets" />
+</p>
 
-This workflow accepts a keyword from an n8n form, searches Google Maps across multiple pages, removes duplicates against an existing Google Sheet, enriches valid records, and writes only new leads back to the table.
+---
 
-## Workflow Snapshot
+## 🌟 What is this Workflow?
+
+The **Lead Generator** agent is a smart assistant designed to build business leads lists automatically. 
+
+Give it a search term (like *"Dentist in New York"* or *"Cafes in Berlin"*), and it will:
+1. Search Google Maps across multiple pages.
+2. Compare the found businesses against your existing Google Sheet database.
+3. Skip any businesses you already have (to save you time and API costs).
+4. Fetch complete details (phone numbers, website links, coordinates) for *new* businesses.
+5. Save the new records directly to your Google Sheet and send a quick run summary.
+
+---
+
+## 🗺️ Workflow Snapshot
+
+Here is the operational process of the lead generator:
 
 ```mermaid
 graph TD
-    Form["Form input"] --> Search["Search Google Maps pages"]
-    Search --> Collect["Collect results"]
-    Collect --> Check["Compare with Google Sheets"]
-    Check --> Enrich["Fetch place details"]
-    Enrich --> Filter["Keep rows with phone numbers"]
-    Filter --> Save["Append new leads"]
-    Save --> Report["Return success summary"]
+    Trigger["1. Form input (Search Phrase)"] --> Search["2. Search Google Maps pages"]
+    Search --> Collect["3. Consolidate results"]
+    Collect --> Check["4. Compare with Google Sheet database"]
+    Check --> Enrich["5. Fetch place details (Only unseen leads)"]
+    Enrich --> Filter["6. Keep rows with phone numbers"]
+    Filter --> Save["7. Save new leads to Google Sheets"]
+    Save --> Report["8. Return success summary"]
+
+    style Trigger fill:#f9f,stroke:#333
+    style Check fill:#bbf,stroke:#333
+    style Save fill:#bfb,stroke:#333
 ```
 
-## What It Does
+---
 
-- Collects up to three pages of Google Maps search results.
-- Consolidates results before running the deduplication logic.
-- Compares incoming `place_id` values against existing sheet rows.
-- Enriches only new items with business details.
-- Returns a final count to the form response.
+## 📁 Package Files
 
-## Files
-
-| File | Purpose |
+| File | What is it? |
 | :--- | :--- |
-| [`agent.json`](./agent.json) | Exported n8n workflow for import. |
-| [`README.md`](./README.md) | Setup and operational guide for this workflow. |
+| **[`agent.json`](./agent.json)** | The exported n8n workflow file. Import this to your n8n dashboard. |
+| **[`README.md`](./README.md)** | This setup and operational guide. |
 
-## Required Services
+---
 
-1. n8n instance with form, HTTP, code, wait, merge, and Google Sheets nodes.
-2. Google Maps and Places API access.
-3. Google Sheets credentials for reading and appending rows.
-4. A spreadsheet with `ID`, `Isletme`, `Telefon`, `Link`, and `Durum` columns.
+## 🛠️ Requirements & Database Setup
 
-## Setup
+Before starting, make sure you have:
+- An **n8n instance** running.
+- **Google Maps & Places API key** with Places API enabled.
+- A **Google Sheet** configured with these exact column headers in the first row:
+  `ID` • `Isletme` • `Telefon` • `Link` • `Durum`
 
-### 1. Import the Workflow
+---
 
-- Import [`agent.json`](./agent.json) into n8n.
-- Open the `Secret` node and replace `ENTER_YOUR_API_KEY` with your real Google Maps key inside n8n.
+## ⚙️ Step-by-Step Setup
 
-### 2. Configure Google Sheets
+### 1. Import to n8n
+- Download [`agent.json`](./agent.json) and import it into your n8n workspace.
 
-- Open `Get Table` and `Add Table`.
-- Select the correct spreadsheet credentials.
-- Confirm the document and sheet names match your target file.
+### 2. Configure Credentials
+<details>
+<summary>🔑 Click to reveal setup guide for each API</summary>
+
+- **Google Maps API node (`Secret`):**
+  - Open the node and replace the placeholder with your actual Google Maps API key.
+- **Google Sheets nodes (`Get Table` & `Add Table`):**
+  - Connect your Google account.
+  - Select your target spreadsheet and sheet name.
+</details>
 
 ### 3. Keep the Wait Nodes
-
-The workflow uses wait nodes to handle pagination and follow-up API calls safely.
-
 > [!IMPORTANT]
-> Do not remove the wait nodes unless you also redesign the request timing and pagination behavior.
+> The workflow includes wait/delay nodes to stay within Google's API rate limits and request timing policies. Do not delete them.
 
-## Deduplication Logic
+---
 
-The custom code node builds a `Set` from existing sheet IDs and only forwards unseen `place_id` values. That keeps the workflow from paying for or storing the same lead twice.
+## 💡 How to Use
 
-## Usage
+1. **Activate** the workflow in n8n.
+2. Open the form trigger URL generated by n8n.
+3. Enter a query (e.g. *"Dentist in New York"*).
+4. Wait a couple of minutes for the workflow to complete.
+5. Open your Google Sheet to view the clean, enriched list of new business leads!
 
-1. Activate the workflow in n8n.
-2. Open the form trigger URL.
-3. Submit a search phrase such as `Dentist in New York`.
-4. Wait for the success message.
-5. Review the new rows in Google Sheets.
+---
 
-## Troubleshooting
+## 📊 Troubleshooting Guide
 
-| Issue | What to Check |
+| What went wrong? | What should I check? |
 | :--- | :--- |
-| No results | Verify the Google Maps and Places APIs are enabled. |
-| Missing rows in Sheets | Verify sheet credentials, document ID, and column mapping. |
-| Duplicate leads | Verify the `ID` column stores the `place_id` values consistently. |
-| Slow run | Some delay is expected because of the wait nodes. |
-
-## Related Pages
-
-- [Back to Source](../README.md)
-- [Go Content Creator](../contect_creator/README.md)
-- [Go Docs](../../docs/README.md)
+| **No leads are being found** | Check if your Google Maps API has billing enabled and the Places API is active. |
+| **Google Sheets doesn't write rows** | Verify column header spelling matches: `ID`, `Isletme`, `Telefon`, `Link`, `Durum`. |
+| **Duplicate leads appear** | Ensure the `ID` column in your spreadsheet is populated with the Google `place_id` values. |

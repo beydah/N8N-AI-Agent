@@ -1,36 +1,62 @@
-# Source Directory
+# 📁 Source Packages
 
-[Back to Home](../README.md) | [Go Docs](../docs/README.md) | [Go Content Creator](./contect_creator/README.md) | [Go Lead Generator](./lead_generator/README.md) | [Go Contributing](../docs/CONTRIBUTING.md) | [Go Security](../docs/SECURITY.md)
+<p align="center">
+  <b>🏡 <a href="../README.md">Repository Home</a></b> • 📖 <a href="../docs/README.md">Documentation Hub</a> • <b>📁 Source Packages</b> • 🛡️ <a href="../docs/SECURITY.md">Security Policy</a> • ✍️ <a href="../docs/CONTRIBUTING.md">Contributing Guide</a>
+</p>
 
-This directory contains the workflow packages that are meant to be imported into n8n. Each package keeps the exported workflow JSON next to its own README so setup, credentials, and operational notes stay close to the actual flow.
+---
 
-## Source Map
+This directory houses the workflow packages that you can import into your n8n instance. 
+
+To keep everything clean and modular, each workflow lives in its own folder and contains its n8n export file (`agent.json`) next to its setup guide (`README.md`).
+
+---
+
+## 🗺️ Source packages directory structure
+
+Here is how the workflow source folders are laid out:
 
 ```mermaid
 graph TD
-    Source["src/"] --> Content["contect_creator/"]
-    Source --> Leads["lead_generator/"]
-    Content --> ContentJson["agent.json"]
-    Content --> ContentReadme["README.md"]
-    Leads --> LeadsJson["agent.json"]
-    Leads --> LeadsReadme["README.md"]
+    Source["📁 src/ Source Root"] --> Content["✍️ contect_creator/"]
+    Source --> Blogger["🤖 wordpress_blogger/"]
+    Source --> Leads["🎯 lead_generator/"]
+
+    Content --> ContentJson["agent.json (Workflow)"]
+    Content --> ContentReadme["README.md (Guide)"]
+    Blogger --> BloggerJson["agent.json (Workflow)"]
+    Blogger --> BloggerReadme["README.md (Guide)"]
+    Leads --> LeadsJson["agent.json (Workflow)"]
+    Leads --> LeadsReadme["README.md (Guide)"]
+
+    style Source fill:#f9f,stroke:#333,stroke-width:2px
+    style Content fill:#bbf,stroke:#333
+    style Blogger fill:#bbf,stroke:#333
+    style Leads fill:#bbf,stroke:#333
 ```
 
-## Packages
+---
 
-| Package | Files | Description |
-| :--- | :--- | :--- |
-| [Content Creator](./contect_creator/README.md) | `agent.json`, `README.md` | Creates content, image prompts, and publishing outputs from a WordPress-driven context flow. |
-| [Lead Generator](./lead_generator/README.md) | `agent.json`, `README.md` | Searches Google Maps, filters unique businesses, and appends clean lead records to Google Sheets. |
+## 📦 Available Packages
 
-## Import Workflow
+| Package Name | Files Included | What it does | Primary services used |
+| :--- | :--- | :--- | :--- |
+| **✍️ [Content Creator](./contect_creator/README.md)** | `agent.json`, `README.md` | Generates article copy, designs an image prompt, and schedules drafts. | n8n, Gemini AI, WordPress, LinkedIn, Google Drive |
+| **🤖 [WordPress Blogger](./wordpress_blogger/README.md)** | `agent.json`, `README.md` | Auto-posts news items using AI translation and block-art image generation. | n8n, Gemini AI, RSS Feeds, WordPress REST API |
+| **🎯 [Lead Generator](./lead_generator/README.md)** | `agent.json`, `README.md` | Gathers local business info, runs deduplication logic, and logs leads. | n8n, Google Maps & Places APIs, Google Sheets |
 
-1. Open the package README.
-2. Import the matching `agent.json` into n8n.
-3. Configure credentials and replace placeholders.
-4. Run the workflow in test mode before using production endpoints.
+---
 
-## Notes
+## 📥 How to Import a Workflow
 
-- The folder name `contect_creator` is kept as-is to match the current repository structure.
-- Sensitive values should never be committed in exported workflow files.
+1. Open the workflow's folder link from the table above.
+2. Read the setup requirements.
+3. Download the `agent.json` file.
+4. Go to your **n8n instance** dashboard.
+5. Click **Import from File** and select the downloaded `agent.json`.
+6. Add your API credentials and run in test mode first.
+
+---
+
+> [!NOTE]
+> *Note on folder spelling:* The folder name `contect_creator` is left as is to ensure compatibility with existing configurations.
