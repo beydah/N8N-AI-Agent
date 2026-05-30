@@ -20,7 +20,7 @@ Here is the layout of the repository's guidelines and policy files:
 graph TD
     Docs["📖 docs/ Overview"] --> Contributing["✍️ CONTRIBUTING.md"]
     Docs --> Security["🛡️ SECURITY.md"]
-    Docs -.-> RootReadme["🏡 README.md (Root)"]
+    Docs -.--> RootReadme["🏡 README.md (Root)"]
     RootReadme --> SourceReadme["📁 src/ README (Workflows)"]
 ```
 
@@ -39,9 +39,10 @@ graph TD
 
 Navigate directly to setup instructions for individual automated agents:
 
-* **✍️ [Content Creator Guide](../src/contect_creator/README.md)** - Generates high-quality articles, cover prompts, and handles asset draft packages.
-* **🤖 [WordPress Blogger Guide](../src/wordpress_blogger/README.md)** - Automates news feed consumption, custom copy generation, cover generation, and posts.
-* **🎯 [Lead Scraper Guide](../src/lead_scraper/README.md)** - Automates Google Maps places searches, local duplicates filtration, and Google Sheets logging.
+*   **💬 [WordPress AI Chatbot Guide](../src/wordpress_ai-chatbot/README.md)** - Embeddable website chat widget and Gemini-backed intelligent twin.
+*   **✍️ [Content Creator Guide](../src/contect_creator/README.md)** - Generates high-quality articles, cover prompts, and handles asset draft packages.
+*   **🤖 [WordPress Blogger Guide](../src/wordpress_blogger/README.md)** - Automates news feed consumption, custom copy generation, cover generation, and posts.
+*   **🎯 [Lead Scraper Guide](../src/lead_scraper/README.md)** - Automates Google Maps places searches, local duplicates filtration, and Google Sheets logging.
 
 ---
 

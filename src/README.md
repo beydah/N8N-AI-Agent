@@ -16,16 +16,23 @@ The source folders are organized as follows:
 
 ```mermaid
 graph TD
-    Source["📁 src/ Source Root"] --> Content["✍️ contect_creator/"]
+    Source["📁 src/ Source Root"] --> Chatbot["💬 wordpress_ai-chatbot/"]
+    Source --> Content["✍️ contect_creator/"]
     Source --> Blogger["🤖 wordpress_blogger/"]
     Source --> Leads["🎯 lead_scraper/"]
 
-    Content --> ContentJson["agent.json (Workflow)"]
-    Content --> ContentReadme["README.md (Guide)"]
-    Blogger --> BloggerJson["agent.json (Workflow)"]
-    Blogger --> BloggerReadme["README.md (Guide)"]
-    Leads --> LeadsJson["agent.json (Workflow)"]
-    Leads --> LeadsReadme["README.md (Guide)"]
+    Chatbot --> ChatbotJson["wordpress_ai-chatbot.json"]
+    Chatbot --> ChatbotHtml["wpcode-footer.html"]
+    Chatbot --> ChatbotReadme["README.md"]
+
+    Content --> ContentJson["content_creator.json"]
+    Content --> ContentReadme["README.md"]
+
+    Blogger --> BloggerJson["wordpress_blogger.json"]
+    Blogger --> BloggerReadme["README.md"]
+
+    Leads --> LeadsJson["lead_scraper.json"]
+    Leads --> LeadsReadme["README.md"]
 ```
 
 ---
@@ -34,20 +41,21 @@ graph TD
 
 | Package Name | Contents | Description | Integrations |
 | :--- | :--- | :--- | :--- |
-| **✍️ [Content Creator](./contect_creator/README.md)** | `agent.json`, `README.md` | Generates article drafts, cover image prompts, and schedules publishing resources. | n8n, Gemini AI, WordPress, LinkedIn, Google Drive |
-| **🤖 [WordPress Blogger](./wordpress_blogger/README.md)** | `agent.json`, `README.md` | Periodically parses tech feeds, writes SEO-friendly articles, drafts voxel cover art, and posts. | n8n, Gemini AI, RSS Feeds, WordPress REST API |
-| **🎯 [Lead Scraper](./lead_scraper/README.md)** | `agent.json`, `README.md` | Gathers local business info, runs deduplication logic, and logs unique leads. | n8n, Google Maps & Places APIs, Google Sheets |
+| **💬 [WordPress AI Chatbot](./wordpress_ai-chatbot/README.md)** | `wordpress_ai-chatbot.json`, `wpcode-footer.html`, `README.md` | Embeddable responsive front-end chat widget and Google Gemini AI Agent with memory support. | n8n, Gemini AI, WordPress (WPCode) |
+| **✍️ [Content Creator](./contect_creator/README.md)** | `content_creator.json`, `README.md` | Generates article drafts, cover image prompts, and schedules publishing resources. | n8n, Gemini AI, WordPress, LinkedIn, Google Drive |
+| **🤖 [WordPress Blogger](./wordpress_blogger/README.md)** | `wordpress_blogger.json`, `README.md` | Periodically parses tech feeds, writes SEO-friendly articles, drafts voxel cover art, and posts. | n8n, Gemini AI, RSS Feeds, WordPress REST API |
+| **🎯 [Google Maps Lead Scraper](./lead_scraper/README.md)** | `lead_scraper.json`, `README.md` | Gathers local business info, runs deduplication logic, and logs unique leads. | n8n, Google Maps & Places APIs, Google Sheets |
 
 ---
 
 ## 📥 How to Import a Workflow
 
-1. Click on the package name from the catalog table above.
-2. Review its credential requirements and database schema setup details.
-3. Download the `agent.json` file.
-4. Go to your **n8n instance** dashboard.
-5. Create a new workflow, click **Import from File**, and select the downloaded `agent.json` file.
-6. Configure your custom API keys, toggle the workflow state to **Active**, and start running!
+1.  Click on the package name from the catalog table above.
+2.  Review its credential requirements and database schema setup details.
+3.  Download its specific JSON configuration file (e.g. `wordpress_blogger.json`).
+4.  Go to your **n8n instance** dashboard.
+5.  Create a new workflow, click **Import from File**, and select the downloaded JSON file.
+6.  Configure your custom API keys, toggle the workflow state to **Active**, and start running!
 
 ---
 
