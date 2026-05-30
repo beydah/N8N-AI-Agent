@@ -16,23 +16,17 @@ The source folders are organized as follows:
 
 ```mermaid
 graph TD
-    Source["📁 src/ Source Root"] --> Chatbot["💬 wordpress_ai-chatbot/"]
+    Source["📁 src/ (Source Root)"]
+    Source --> Chatbot["💬 wordpress_ai-chatbot/"]
     Source --> Content["✍️ contect_creator/"]
     Source --> Blogger["🤖 wordpress_blogger/"]
     Source --> Leads["🎯 lead_scraper/"]
 
-    Chatbot --> ChatbotJson["wordpress_ai-chatbot.json"]
-    Chatbot --> ChatbotHtml["wpcode-footer.html"]
-    Chatbot --> ChatbotReadme["README.md"]
-
-    Content --> ContentJson["content_creator.json"]
-    Content --> ContentReadme["README.md"]
-
-    Blogger --> BloggerJson["wordpress_blogger.json"]
-    Blogger --> BloggerReadme["README.md"]
-
-    Leads --> LeadsJson["lead_scraper.json"]
-    Leads --> LeadsReadme["README.md"]
+    style Source fill:#161b22,stroke:#30363d,color:#c9d1d9
+    style Chatbot fill:#0d1117,stroke:#58a6ff,color:#f0f6fc
+    style Blogger fill:#0d1117,stroke:#bc8cff,color:#f0f6fc
+    style Content fill:#0d1117,stroke:#3fb950,color:#f0f6fc
+    style Leads fill:#0d1117,stroke:#f0883e,color:#f0f6fc
 ```
 
 ---

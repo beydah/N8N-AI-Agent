@@ -18,10 +18,15 @@ Here is the layout of the repository's guidelines and policy files:
 
 ```mermaid
 graph TD
-    Docs["📖 docs/ Overview"] --> Contributing["✍️ CONTRIBUTING.md"]
+    Docs["📖 docs/ Overview"]
+    Docs --> Contributing["✍️ CONTRIBUTING.md"]
     Docs --> Security["🛡️ SECURITY.md"]
-    Docs -.--> RootReadme["🏡 README.md (Root)"]
-    RootReadme --> SourceReadme["📁 src/ README (Workflows)"]
+    Docs -.-> RootReadme["🏡 README.md (Root)"]
+
+    style Docs fill:#161b22,stroke:#30363d,color:#c9d1d9
+    style Contributing fill:#0d1117,stroke:#30363d,color:#8b949e
+    style Security fill:#0d1117,stroke:#30363d,color:#8b949e
+    style RootReadme fill:#0d1117,stroke:#30363d,color:#8b949e
 ```
 
 ---

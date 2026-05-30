@@ -39,14 +39,27 @@ Below is a conceptual map of the repository's directories:
 
 ```mermaid
 graph TD
-    Home["🏡 Repository Home"] --> Docs["📖 docs/ (Guidelines)"]
-    Home --> Source["📁 src/ (Workflows)"]
-    Docs --> Contributing["✍️ Contributing Guide"]
-    Docs --> Security["🛡️ Security Policy"]
+    Root["🤖 n8n AI Agent Hub"]
+    Root --> Docs["📖 docs/ (Guidelines)"]
+    Root --> Source["📁 src/ (Workflows)"]
+
+    Docs --> Contributing["✍️ CONTRIBUTING.md"]
+    Docs --> Security["🛡️ SECURITY.md"]
+
     Source --> Chatbot["💬 WordPress AI Chatbot"]
-    Source --> Content["✍️ Content Creator"]
     Source --> Blogger["🤖 WordPress Blogger"]
-    Source --> Leads["🎯 Lead Scraper"]
+    Source --> Content["✍️ Content Creator"]
+    Source --> Scraper["🎯 Lead Scraper"]
+
+    style Root fill:#161b22,stroke:#30363d,color:#c9d1d9
+    style Docs fill:#161b22,stroke:#30363d,color:#c9d1d9
+    style Source fill:#161b22,stroke:#30363d,color:#c9d1d9
+    style Contributing fill:#0d1117,stroke:#30363d,color:#8b949e
+    style Security fill:#0d1117,stroke:#30363d,color:#8b949e
+    style Chatbot fill:#0d1117,stroke:#58a6ff,color:#f0f6fc
+    style Blogger fill:#0d1117,stroke:#bc8cff,color:#f0f6fc
+    style Content fill:#0d1117,stroke:#3fb950,color:#f0f6fc
+    style Scraper fill:#0d1117,stroke:#f0883e,color:#f0f6fc
 ```
 
 ---
