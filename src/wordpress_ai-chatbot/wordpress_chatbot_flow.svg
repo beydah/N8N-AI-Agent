@@ -47,8 +47,8 @@
   <rect x="1" y="1" width="848" height="518" rx="19" fill="none" stroke="#1e293b" stroke-width="2" />
 
   <!-- Title Section -->
-  <text x="50" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="800" fill="#f8fafc">🎯 Google Maps Lead Scraper Workflow</text>
-  <text x="50" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#94a3b8" font-weight="500">Form-triggered pipeline query parsing Google Maps leads and logging them to Sheets CRM</text>
+  <text x="50" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="800" fill="#f8fafc">💬 WordPress AI Chatbot Workflow</text>
+  <text x="50" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#94a3b8" font-weight="500">Real-time web chat widget backend linking DOM context, memory buffers, and Gemini Agent</text>
 
   <!-- Connecting Lines -->
   <!-- Step 1 to Step 2 -->
@@ -62,52 +62,51 @@
   <!-- Step 5 to Step 6 -->
   <path d="M 320 340 L 210 340" fill="none" stroke="#334155" stroke-width="2.5" marker-end="url(#arrow)" />
 
-  <!-- Node 1: Webhook Trigger (n8n Form) -->
+  <!-- Node 1: Chat Widget Trigger -->
   <g transform="translate(50, 140)" filter="url(#glowCyan)">
     <rect width="140" height="100" rx="14" fill="url(#cyanGrad)" stroke="#67e8f9" stroke-width="1.5" />
-    <text x="70" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">1. Trigger</text>
-    <text x="70" y="66" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#c7d2fe" font-weight="600" text-anchor="middle">n8n Form URL</text>
-    <text x="70" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#93c5fd" font-weight="500" text-anchor="middle">(Keyword &amp; Loc)</text>
+    <text x="70" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">1. User Event</text>
+    <text x="70" y="66" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#c7d2fe" font-weight="600" text-anchor="middle">Web Chat Panel</text>
+    <text x="70" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#93c5fd" font-weight="500" text-anchor="middle">(Widget Opened)</text>
   </g>
 
-  <!-- Node 2: Search Google Maps -->
+  <!-- Node 2: Enrich Context -->
   <g transform="translate(260, 140)" filter="url(#glowSoft)">
     <rect width="160" height="100" rx="14" fill="#111827" stroke="#1f2937" stroke-width="2" />
-    <text x="80" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="#f8fafc" text-anchor="middle">2. Search Maps</text>
-    <text x="80" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">Places Text Search</text>
-    <text x="80" y="78" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">(3 pages + delay loops)</text>
+    <text x="80" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="#f8fafc" text-anchor="middle">2. Context Ingest</text>
+    <text x="80" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Appends page URL</text>
+    <text x="80" y="78" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">&amp; body content context</text>
   </g>
 
-  <!-- Node 3: Merge Results -->
+  <!-- Node 3: Chat Webhook CORS -->
   <g transform="translate(490, 140)" filter="url(#glowSoft)">
     <rect width="160" height="100" rx="14" fill="#111827" stroke="#1f2937" stroke-width="2" />
-    <text x="80" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="#f8fafc" text-anchor="middle">3. Consolidate</text>
-    <text x="80" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">Compile List Rows</text>
-    <text x="80" y="78" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">(Merge &amp; deduplicate)</text>
+    <text x="80" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="#f8fafc" text-anchor="middle">3. Chat Trigger</text>
+    <text x="80" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">n8n CORS Webhook</text>
+    <text x="80" y="78" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#ef4444" font-weight="600" text-anchor="middle">Allowed Origins filter</text>
   </g>
 
-  <!-- Node 4: Smart DB Deduplication -->
+  <!-- Node 4: Cognitive Memory -->
   <g transform="translate(650, 270)" filter="url(#glowSoft)">
     <rect width="150" height="105" rx="14" fill="#111827" stroke="#1f2937" stroke-width="2" />
-    <text x="75" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="#f8fafc" text-anchor="middle">4. Check DB</text>
-    <text x="75" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Read Google Sheets</text>
-    <text x="75" y="75" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#3b82f6" font-weight="600" text-anchor="middle">Skip existing IDs</text>
-    <text x="75" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#6b7280" text-anchor="middle">(Prevents duplication)</text>
+    <text x="75" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="#f8fafc" text-anchor="middle">4. Memory</text>
+    <text x="75" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Buffer Window</text>
+    <text x="75" y="75" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#e2e8f0" font-weight="500" text-anchor="middle">Keeps last 10 texts</text>
   </g>
 
-  <!-- Node 5: Enrich & Validate Leads -->
+  <!-- Node 5: Gemini Agent Process -->
   <g transform="translate(320, 290)" filter="url(#glowPurple)">
     <rect width="160" height="100" rx="14" fill="#111827" stroke="url(#purpleGrad)" stroke-width="2" />
-    <text x="80" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="#f8fafc" text-anchor="middle">5. Enrich Leads</text>
-    <text x="80" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#c084fc" text-anchor="middle">Places Details API</text>
-    <text x="80" y="78" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#f43f5e" font-weight="700" text-anchor="middle">Filter out no-phone</text>
+    <text x="80" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="#f8fafc" text-anchor="middle">5. AI Chatbot</text>
+    <text x="80" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#c084fc" text-anchor="middle">Gemini Agent Node</text>
+    <text x="80" y="78" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#a855f7" font-weight="700" text-anchor="middle">Generates styled HTML</text>
   </g>
 
-  <!-- Node 6: Save Leads to Sheets CRM -->
+  <!-- Node 6: Visual UI Output -->
   <g transform="translate(50, 290)" filter="url(#glowGreen)">
     <rect width="160" height="100" rx="14" fill="url(#greenGrad)" stroke="#34d399" stroke-width="1.5" />
-    <text x="80" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">6. Save Leads</text>
-    <text x="80" y="66" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#a7f3d0" font-weight="600" text-anchor="middle">Append Sheet CRM</text>
-    <text x="80" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#047857" font-weight="700" text-anchor="middle">(Sends success form)</text>
+    <text x="80" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">6. Web Panel</text>
+    <text x="80" y="66" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#a7f3d0" font-weight="600" text-anchor="middle">Renders HTML cards</text>
+    <text x="80" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#047857" font-weight="700" text-anchor="middle">(With forms &amp; buttons)</text>
   </g>
 </svg>

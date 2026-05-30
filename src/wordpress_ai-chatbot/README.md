@@ -31,16 +31,11 @@ The **WordPress AI Chatbot** is a production-ready solution that embeds a premiu
 
 ## 🗺️ Process Layout
 
-The flowchart below describes the operations inside the chatbot workspace:
+The diagram below describes the operations and data flow inside the chatbot workspace:
 
-```mermaid
-graph LR
-    Visitor["👤 Website Visitor"] <-->|Interacts| Widget["🎨 WPCode Footer Widget"]
-    Widget <-->|POST Chat Event| Trigger["🔌 Chat Trigger (CORS Protected)"]
-    Trigger <-->|Fetch/Save| Memory["🧠 Memory Buffer (10 Msg Window)"]
-    Trigger <-->|Query| Agent["🤖 AI Chatbot (Gemini Agent)"]
-    Agent -->|Generates HTML| Trigger
-```
+<p align="center">
+  <img src="./wordpress_chatbot_flow.svg" alt="WordPress Chatbot Flow" width="85%" />
+</p>
 
 ---
 
@@ -49,6 +44,7 @@ graph LR
 | File | Description |
 | :--- | :--- |
 | **[`wordpress_ai-chatbot.json`](./wordpress_ai-chatbot.json)** | Generalized n8n workflow configuration file. Import this to your dashboard. |
+| **[`wordpress_chatbot_flow.svg`](./wordpress_chatbot_flow.svg)** | Visual SVG flow diagram of the chatbot process. |
 | **[`wpcode-footer.html`](./wpcode-footer.html)** | The standalone HTML/CSS/JS widget snippet. Copy and paste this into your WordPress site footer. |
 
 ---
