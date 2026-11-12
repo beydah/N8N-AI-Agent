@@ -1067,6 +1067,126 @@
       msg.appendChild(copyBtn);
     };
 
+    const BOT_ALLOWED_HTML_TAGS = new Set([
+      'a', 'b', 'blockquote', 'br', 'button', 'caption', 'code', 'dd', 'del', 'div', 'dl', 'dt',
+      'em', 'figcaption', 'figure', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i',
+      'img', 'input', 'kbd', 'label', 'li', 'ol', 'optgroup', 'option', 'p', 'pre', 's', 'select',
+      'small', 'span', 'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'th', 'thead',
+      'tr', 'u', 'ul'
+    ]);
+    const BOT_DROP_HTML_TAGS = new Set([
+      'base', 'embed', 'iframe', 'link', 'math', 'meta', 'object', 'script', 'style', 'svg', 'template'
+    ]);
+    const BOT_SAFE_STYLE_PROPERTIES = new Set([
+      'background-color', 'border', 'border-radius', 'box-shadow', 'color', 'display', 'font-size',
+      'font-style', 'font-weight', 'line-height', 'margin', 'margin-bottom', 'margin-top', 'max-width',
+      'padding', 'padding-bottom', 'padding-top', 'text-align', 'text-decoration', 'white-space', 'width'
+    ]);
+
+    const getSafeBotUrl = (value, allowMailto = false) => {
+      const candidate = String(value || '').trim();
+      if (!candidate || /[\u0000-\u001f]/.test(candidate)) return null;
+
+      try {
+        const url = new URL(candidate, window.location.href);
+        if (url.protocol === 'https:' || (url.protocol === 'http:' && url.origin === window.location.origin)) {
+          return url.href;
+        }
+        if (allowMailto && url.protocol === 'mailto:' && url.pathname) return candidate;
+      } catch (error) {}
+
+      return null;
+    };
+
+    const copySafeBotAttributes = (source, target, tagName) => {
+      Array.from(source.attributes).forEach((attribute) => {
+        const name = attribute.name.toLowerCase();
+        const value = attribute.value;
+        if (name.startsWith('on') || name === 'srcdoc' || name === 'formaction' || name === 'formtarget') return;
+
+        if (name === 'class' && /^[a-z0-9 _-]{1,160}$/i.test(value)) {
+          target.className = value;
+        } else if (name === 'title' || name === 'aria-label' || name === 'role') {
+          target.setAttribute(name, value.slice(0, 240));
+        } else if (name === 'style') {
+          const parsedStyle = document.createElement('span');
+          parsedStyle.setAttribute('style', value);
+          BOT_SAFE_STYLE_PROPERTIES.forEach((property) => {
+            const safeValue = parsedStyle.style.getPropertyValue(property).trim();
+            if (!safeValue || /url\s*\(|expression|javascript:|@import|[<>]/i.test(safeValue)) return;
+            if (/^[#(),.%\w\s/-]+$/.test(safeValue)) target.style.setProperty(property, safeValue);
+          });
+        } else if (tagName === 'a' && name === 'href') {
+          const safeUrl = getSafeBotUrl(value, true);
+          if (safeUrl) target.setAttribute('href', safeUrl);
+        } else if (tagName === 'a' && name === 'target' && value === '_blank') {
+          target.setAttribute('target', '_blank');
+          target.setAttribute('rel', 'noopener noreferrer');
+        } else if (tagName === 'img' && name === 'src') {
+          const safeUrl = getSafeBotUrl(value);
+          if (safeUrl) {
+            target.setAttribute('src', safeUrl);
+            target.setAttribute('referrerpolicy', 'no-referrer');
+            target.setAttribute('loading', 'lazy');
+          }
+        } else if (tagName === 'img' && name === 'alt') {
+          target.setAttribute('alt', value.slice(0, 500));
+        } else if (tagName === 'form' && name === 'action') {
+          const safeUrl = getSafeBotUrl(value, true);
+          if (safeUrl && safeUrl.startsWith('mailto:')) target.setAttribute('action', safeUrl);
+        } else if (tagName === 'form' && name === 'method' && /^(get|post)$/i.test(value)) {
+          target.setAttribute('method', value.toLowerCase());
+        } else if (tagName === 'input' && name === 'type' && /^(text|email|tel|url|search|number|date|checkbox|radio|submit|button)$/i.test(value)) {
+          target.setAttribute('type', value.toLowerCase());
+        } else if (['input', 'textarea', 'select', 'option', 'button', 'label'].includes(tagName)
+          && ['name', 'value', 'placeholder', 'for', 'min', 'max', 'maxlength', 'rows', 'cols', 'size'].includes(name)) {
+          target.setAttribute(name, value.slice(0, 500));
+        } else if (['input', 'textarea', 'select', 'option', 'button'].includes(tagName)
+          && ['required', 'checked', 'selected', 'disabled', 'multiple'].includes(name)) {
+          target.setAttribute(name, '');
+        } else if (['td', 'th'].includes(tagName) && ['colspan', 'rowspan', 'scope'].includes(name)) {
+          if (/^(\d{1,2}|row|col|rowgroup|colgroup)$/i.test(value)) target.setAttribute(name, value);
+        }
+      });
+    };
+
+    const sanitizeBotHtml = (unsafeHtml) => {
+      const template = document.createElement('template');
+      // Parsing in inert template content keeps untrusted scripts out of the live document.
+      template.innerHTML = String(unsafeHtml);
+
+      const sanitizeNode = (node) => {
+        if (node.nodeType === Node.TEXT_NODE) return document.createTextNode(node.nodeValue || '');
+        if (node.nodeType !== Node.ELEMENT_NODE) return null;
+
+        const tagName = node.tagName.toLowerCase();
+        if (BOT_DROP_HTML_TAGS.has(tagName)) return null;
+        if (!BOT_ALLOWED_HTML_TAGS.has(tagName)) {
+          const unwrapped = document.createDocumentFragment();
+          Array.from(node.childNodes).forEach((child) => {
+            const safeChild = sanitizeNode(child);
+            if (safeChild) unwrapped.appendChild(safeChild);
+          });
+          return unwrapped;
+        }
+
+        const safeElement = document.createElement(tagName);
+        copySafeBotAttributes(node, safeElement, tagName);
+        Array.from(node.childNodes).forEach((child) => {
+          const safeChild = sanitizeNode(child);
+          if (safeChild) safeElement.appendChild(safeChild);
+        });
+        return safeElement;
+      };
+
+      const safeContent = document.createDocumentFragment();
+      Array.from(template.content.childNodes).forEach((child) => {
+        const safeChild = sanitizeNode(child);
+        if (safeChild) safeContent.appendChild(safeChild);
+      });
+      return safeContent;
+    };
+
     const bindBotForms = (msg) => {
       msg.querySelectorAll('form').forEach((form) => {
         if (form.dataset.aiFormBound === '1') return;
@@ -1098,12 +1218,12 @@
       rawText = rawText
         .replace(/\\n/g, '<br>')
         .replace(/\\"/g, '"')
-        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank" class="ai-btn" style="display: inline-block; padding: 10px 20px; background-color: #2457d6; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 600; margin-top: 8px; box-shadow: 0 4px 12px rgba(36, 87, 214, 0.2);">$1</a>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank" class="ai-btn">$1</a>')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
       const looksLikeHtml = /<\/?[a-z][\s\S]*>/i.test(rawText);
       if (looksLikeHtml) {
-        msg.innerHTML = rawText;
+        msg.replaceChildren(sanitizeBotHtml(rawText));
         msg.dataset.htmlParsed = '1';
         msg.style.animation = 'aiHtmlFade 0.4s ease forwards';
         bindBotForms(msg);
